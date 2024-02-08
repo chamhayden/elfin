@@ -6,12 +6,12 @@ const config = {
   JWT_SECRET: 'TESTING2',
   PORT: 11531,
   COOKIE_EXPIRY: 60 * 60 * 24 * 7,
-  AIRTABLE_API_KEY: 'keyOJnoA6KHnByQUv',
+  AIRTABLE_PERSONAL_TOKEN: 'pats2GNPo6FGIxqQA.5d48c18fc83c2b5c40a9591085aad27b92b4b8fc27505dfd1332b0fa9f9e1c3b',
   TERMS: {
     '24T1': {
       STUDENT_LIST_SH: 'echo "5555555\n3418003"',
-      AIRTABLE_BASE: 'appYoRmspUPWynt68',
-      TUTOR_ID_LIST: [],
+      AIRTABLE_BASE: 'appVi93guNJQJdPaa',
+      TUTOR_ID_LIST: ["3418003"],
       AUDIT_ID_LIST: []
     },
   },

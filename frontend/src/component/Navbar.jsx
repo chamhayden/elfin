@@ -30,7 +30,7 @@ import mainlogo from '../asset/mainlogo.png';
 import { isMobileWidth } from '../util/screen';
 import { Context, useContext } from '../context';
 
-import { getPrimaryNavList, getSecondaryNavList } from './NavList';
+import { getPrimaryNavList } from './NavList';
 
 const ExternalIcon = () => {
   return <img style={{ width: '15px' }} src={External} />;
@@ -144,22 +144,6 @@ export default function ClippedDrawer({ children, drawerWidth, sidebarOpen, setS
           })}
           </List>
           {getters.loggedIn && <Divider sx={{borderColor: '#666', margin: '0 15px' }} />}
-          <List>
-          {getSecondaryNavList(getters.term).map(({ external, title, Icon, route, loginRequired }, key) => {
-            if (!getters.loggedIn && loginRequired) {
-              return <span key={key}></span>
-            }
-            return (
-              <ListItem button key={key} onClick={() => redirect(getUrl(route, external))} selected={boldIfPage(route)}>
-                <ListItemIcon>
-                  <Icon style={{fill: 'white'}} />
-                </ListItemIcon>
-                <ListItemText primary={title} />
-                {external && <ExternalIcon />}
-              </ListItem>
-            );
-          })}
-          </List>
         </Box>
       </Drawer>
     </>

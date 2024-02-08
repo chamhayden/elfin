@@ -22,7 +22,7 @@ import config from '../../config';
 const TimetableLectures = () => {
   const { getters } = useContext(Context);
   return <>
-    <TableContainer component={Paper} sx={{maxWidth: 1000, margin: '0px auto'}}>
+    {/*<TableContainer component={Paper} sx={{maxWidth: 1000, margin: '0px auto'}}>
       <Table sx={{ minWidth: 350, }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -67,7 +67,7 @@ const TimetableLectures = () => {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer>*/}
   </>;
 };
 

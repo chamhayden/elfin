@@ -2,21 +2,53 @@ const Airtable = require('airtable');
 
 const config = require('./config');
 
-
-const { joinSchema } = require('../../frontend/src/config');
-
-const tables = Object.keys(joinSchema);
-
-const generateContent = (term) => {
+const addRun = (term, zid, iteration, commit) => {
   const basename = config.TERMS[term].AIRTABLE_BASE;
-  const base = new Airtable({ apiKey: config.AIRTABLE_API_KEY }).base(basename);
+  const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
+  return new Promise((resolve, reject) => {
+    base('runs').create({
+      zid,
+      commithash: commit,
+      status: 'pending',
+      iter: iteration,
+      type: 'rerun_request',
+    });
+  });
+};
+
+const cancelRun = (term, zid, record) => {
+  const basename = config.TERMS[term].AIRTABLE_BASE;
+  const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
+  return new Promise((resolve, reject) => {
+    base('runs').find(record).then(record => {
+      if (record.fields.zid !== zid) {
+        throw new Error('You can only cancel reqeuests you made');
+      }
+      if (record.fields.status !== 'pending') {
+        throw new Error('You can only cancel requests in pending state');
+      }
+      base('runs').update([
+        {
+          id: record.id,
+          fields: {
+            status: 'cancelled',
+          }
+        }
+      ]);
+    });
+  });
+};
+
+const generateContent = (term, schema) => {
+  const basename = config.TERMS[term].AIRTABLE_BASE;
+  const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
   return new Promise((resolve, reject) => {
     const obj = {};
-    Promise.all(tables.map(table => {
+    Promise.all(schema.map(table => {
       return new Promise((resolve, reject) => {
         obj[table] = {};
         base(table).select({
-            maxRecords: 1000,
+            maxRecords: 10000000,
             view: 'API',
         }).eachPage(records => {
           records.forEach(record => {
@@ -32,23 +64,7 @@ const generateContent = (term) => {
       });
     }))
     .then(() => {
-      const objPartial = {};
-      Object.keys(joinSchema).forEach(key => {
-        if (joinSchema[key].public) {
-          objPartial[key] = JSON.parse(JSON.stringify(obj[key])); // I hate this method
-          for (const recordkey of Object.keys(objPartial[key])) {
-            for (const cellkey of Object.keys(objPartial[key][recordkey])) {
-              if (cellkey.endsWith('_h')) {
-                objPartial[key][recordkey][cellkey] = '';
-              }
-            }
-          }
-        }
-      });
-      resolve({
-        full: obj,
-        public: objPartial,
-      });
+      resolve(obj);
     }).catch((err) => {
       console.log('Error building', err);
     });
@@ -57,4 +73,6 @@ const generateContent = (term) => {
 
 module.exports = {
   generateContent,
+  addRun,
+  cancelRun,
 };

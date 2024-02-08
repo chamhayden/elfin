@@ -20,16 +20,15 @@ const Logout = () => {
     window.location.href = `${config.BASE_NAME}login`;
   }
   return (
-    <></>
+    <Button
+      color="inherit"
+      onClick={getters.loggedIn ? logoutFn : login}
+    >
+      {getters.loggedIn ? 'Logout' : 'Login'}
+    </Button>
     
   );
 };
 
 export default Logout;
 
-{/*<Button
-      color="inherit"
-      onClick={getters.loggedIn ? logoutFn : login}
-    >
-      {getters.loggedIn ? 'Logout' : 'Login'}
-    </Button>*/}

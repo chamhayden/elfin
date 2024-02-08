@@ -11,11 +11,10 @@ import Button from '@mui/material/Button';
 import SubNav from '../component/SubNav';
 import makePage from '../component/makePage';
 import { Context, useContext } from '../context';
-import { getPrimaryNavList, getSecondaryNavList } from '../component/NavList';
+import { getPrimaryNavList } from '../component/NavList';
 import SessionAlert from '../component/SessionAlert';
 
 const Dashboard = ({ }) => {
-  console.log('hi2');
   const { getters, setters } = useContext(Context);
   const navigate = useNavigate();
 
@@ -31,9 +30,6 @@ const Dashboard = ({ }) => {
     } else {
       flattenedNavList.push(i);
     }
-  });
-  getSecondaryNavList(getters.term).map(i => {
-    flattenedNavList.push(i);
   });
 
   const getUrl = (route, external) => {

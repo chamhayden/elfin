@@ -11,15 +11,28 @@ import { Outlet } from 'react-router-dom';
 import SubNavWrapper from '../../component/SubNavWrapper';
 import makePage from '../../component/makePage';
 
-const ContentTutorials = ({ }) => {
+const ProjectBase = ({ }) => {
+  const menu = [
+    {
+      title: 'Spec',
+      icon: <TheatersIcon />,
+      subRoute: 'spec',
+    },
+    {
+      title: 'Marking Runs',
+      icon: <SchoolIcon />,
+      subRoute: 'runs',
+    },
+  ];
+
   return (
-    <>
-      Tutorials
-    </>
+    <SubNavWrapper baseUrl={'/content/project'} menu={menu}>
+      <Outlet />
+    </SubNavWrapper>
   );
 };
 
-export default makePage(ContentTutorials, {
+export default makePage(ProjectBase, {
   loginRequired: true,
-  title: 'Tutorial Content',
+  title: 'Major Project',
 });

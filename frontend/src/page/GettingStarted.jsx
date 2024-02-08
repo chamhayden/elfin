@@ -8,18 +8,19 @@ import SchoolIcon from '@mui/icons-material/School';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { Outlet } from 'react-router-dom';
 
-import SubNavWrapper from '../../component/SubNavWrapper';
-import makePage from '../../component/makePage';
+//import SubNavWrapper from '../../component/SubNavWrapper';
 
-const ContentTutorials = ({ }) => {
+import makePage from '../component/makePage';
+
+const GettingStarted = ({ }) => {
   return (
     <>
-      Tutorials
+      Lectures
     </>
   );
 };
 
-export default makePage(ContentTutorials, {
+export default makePage(GettingStarted, {
   loginRequired: true,
-  title: 'Tutorial Content',
+  title: 'Getting Started',
 });

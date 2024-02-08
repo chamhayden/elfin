@@ -13,24 +13,20 @@ import SubNavWrapper from '../../component/SubNavWrapper';
 import makePage from '../../component/makePage';
 
 const ContentLectures = ({ }) => {
-  const menu = [
-    {
-      title: 'By Week',
-      icon: <TheatersIcon />,
-      subRoute: 'week',
-    },
-    {
-      title: 'By Topic',
-      icon: <SchoolIcon />,
-      subRoute: 'topic',
-    },
-  ];
-
   return (
-    <SubNavWrapper baseUrl={'/content/lectures'} menu={menu}>
-      <Outlet />
-    </SubNavWrapper>
+    <>
+      You can find the full folder of lectures here . And the full folder of code here .
+      https://teaching.bitflip.com.au/1531/24T1/
+      https://teaching.bitflip.com.au/code/1531/24T1/
+
+
+
+    </>
   );
 };
 
-export default ContentLectures;
+
+export default makePage(ContentLectures, {
+  loginRequired: true,
+  title: 'Lecture Content',
+});

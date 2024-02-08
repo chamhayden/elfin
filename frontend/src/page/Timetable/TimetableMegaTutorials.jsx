@@ -17,7 +17,7 @@ import makePage from '../../component/makePage';
 import { isTinyMobileWidth } from '../../util/screen';
 import config from '../../config';
 
-const TimetableTutorials = () => {
+const TimetableMegaTutorials = () => {
   const { getters } = useContext(Context);
   return <>
     {/*<div style={{ textAlign: 'center', marginBottom: '20px', }}>ONLINe tutorials are run on MS teams, please join them <a href="https://teams.microsoft.com/l/team/19%3aEua1eLL2oASZienf-Bf71zTkcaG7fpw3Dd-MuCKDnSg1%40thread.tacv2/conversations?groupId=9148b9c3-73a0-4017-a114-792e39aa2d22&tenantId=3ff6cfa4-e715-48db-b8e1-0867b9f9fba3" target="_blank">here</a>.</div>
@@ -61,7 +61,7 @@ const TimetableTutorials = () => {
   </>;
 };
 
-export default makePage(TimetableTutorials, {
+export default makePage(TimetableMegaTutorials, {
   loginRequired: false,
-  title: 'Tutorials Timetable',
+  title: 'Mega Tutorials Timetable',
 });

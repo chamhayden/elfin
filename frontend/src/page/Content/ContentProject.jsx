@@ -11,33 +11,19 @@ import { Outlet } from 'react-router-dom';
 import SubNavWrapper from '../../component/SubNavWrapper';
 import makePage from '../../component/makePage';
 
-const Timetable = ({ }) => {
-  const menu = [
-    {
-      title: 'Lectures',
-      icon: <TheatersIcon />,
-      subRoute: 'lectures',
-    },
-    {
-      title: 'Tutorials',
-      icon: <SchoolIcon />,
-      subRoute: 'tutorials',
-    },
-    {
-      title: 'Help Sessions',
-      icon: <LocalHospitalIcon />,
-      subRoute: 'help-sessions',
-    },
-  ];
-
+const ContentProject = ({ }) => {
   return (
-    <SubNavWrapper baseUrl={'/timetable'} menu={menu}>
-      <Outlet />
-    </SubNavWrapper>
+    <>
+      Your major project will be released to you on Gitlab on week 2 Monday.
+
+Once it is released, you are able to see your group repository on the homepage of Gitlab: https://nw-syd-gitlab.cseunsw.tech/dashboard/projects.
+
+Examples of the group project name include WED15A_EGG.
+    </>
   );
 };
 
-export default makePage(Timetable, {
-  loginRequired: false,
-  title: 'Timetable',
+export default makePage(ContentProject, {
+  loginRequired: true,
+  title: 'Major Project',
 });

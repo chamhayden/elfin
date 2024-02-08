@@ -19,7 +19,6 @@ import SubNav from '../../component/SubNav';
 import { Context, useContext } from '../../context';
 import makePage from '../../component/makePage';
 import { isTinyMobileWidth } from '../../util/screen';
-import SetOfTables from '../../component/SetOfTables';
 import config from '../../config';
 
 const TimetableHelpSessions = () => {
@@ -27,7 +26,7 @@ const TimetableHelpSessions = () => {
   const [boxes, setBoxes] = React.useState([]);
 
   React.useEffect(() => {
-    setBoxes(getters.content.weeks.map(week => {
+    {/*setBoxes(getters.content.weeks.map(week => {
       if (week.schedule_help_sessions && week.schedule_help_sessions().length > 0) {
         return {
           title: `Week ${week.week}`,
@@ -55,13 +54,14 @@ const TimetableHelpSessions = () => {
           }),
         }
       }
-    }).filter(c => !!c));
+    }).filter(c => !!c));*/}
   }, [getters.content.weeks]);
 
   return <>
-    <div style={{ textAlign: 'center', marginBottom: '20px', }}>Help Sessions run on MS teams, please join it <a href="https://teams.microsoft.com/l/team/19%3ajnwNzhilzFqQ3cWkiLZS0wlcKiBinmUyDNnkLrGgIr81%40thread.tacv2/conversations?groupId=aa37a6a5-843b-48a3-9a5f-3c325a6ef94f&tenantId=3ff6cfa4-e715-48db-b8e1-0867b9f9fba3" target="_blank">here</a>.</div>
-    <div style={{ textAlign: 'center', marginBottom: '20px', }}>Please be aware that help sessions with less tutors may result in longer wait times.</div>
-    <SetOfTables boxes={boxes} />
+    Help sessions are run on Microsoft Teams. CLICK HERE to view the help session calendar here to join a particular help session .
+    Please note, help sessions are scheduled on your calendar at the same time every week - but if you want to check if they're ACTUALLY running check the timetable below!
+    Please wait in the appropriate Hopper Queue until a tutor contacts you or invite you into a call.
+    A summary of the schedule is below.
   </>
 
   {/**/}

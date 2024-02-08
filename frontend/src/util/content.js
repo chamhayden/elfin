@@ -1,9 +1,11 @@
 import { apiCall } from './api';
 
-import { DEV, joinSchema } from '../config';
+import { DEV, runSchema, contentSchema } from '../config';
 
 /* Genius or madness */
-const joinContent = content => {
+const joinContent = (content, schema) => {
+  const group = content.group; // HACK
+  content.group = undefined;
   const newContent = {};
   for (const table in content) {
     newContent[table] = [];
@@ -12,7 +14,7 @@ const joinContent = content => {
     }
     for (const row of newContent[table]) {
       for (const cellKey in row) {
-        const joinInfo = joinSchema[table]['joins'][cellKey];
+        const joinInfo = schema[table]['joins'][cellKey];
         if (joinInfo) {
           const [otherTable, atomic] = joinInfo;
           row[cellKey] = ((thisCell, otherTable, atomic) => {
@@ -28,64 +30,17 @@ const joinContent = content => {
       }
     }
   }
-  newContent.weeks = newContent.weeks.sort((a,b) => (parseInt(a.week) > parseInt(b.week)) ? 1 : (parseInt(b.week) > parseInt(a.week) ? -1 : 0));
-  return newContent;
+  console.log(content.group);
+  return {
+    ...newContent,
+    group: group,
+  };
 };
 
-export const loadContent = (term, loggedIn = false) => {
-  return new Promise((resolve, reject) => {
-    // Check if we stored it locally
-    const expiry = localStorage.getItem('eckles_expiry');
-    if (expiry) {
-      if ((new Date()).getTime() < JSON.parse(expiry)) {
-        const storedTerm = localStorage.getItem('eckles_term');
-        if (storedTerm === term) {
-          const eckles_content = localStorage.getItem('eckles_content');
-          if (eckles_content) {
-            const content = JSON.parse(eckles_content);
-            resolve(joinContent(content));
-            return;
-          }
-        }
-      }
-    }
-    apiCall('content/' + (loggedIn ? 'full' : 'public'), {
-      term,
-    })
-      .then(rawContent => {
-        const expiry = (new Date()).getTime() + 1000 * 60 * 5;
-        if (!DEV) {
-          localStorage.setItem('eckles_expiry', expiry);
-          localStorage.setItem('eckles_term', term);
-          localStorage.setItem('eckles_content', JSON.stringify(rawContent));
-        }
-        const content = joinContent(rawContent);
-        resolve(content);
-      })
-      .catch(err => { console.log(err); reject(err) });
-  });
+export const loadContent = async (term, loggedIn = false) => {
+  return apiCall('content', { term, })
+    .then(rawContent => joinContent(rawContent, contentSchema))
+    .catch(err => { console.log(err); });
 };
 
 export const getYoutubeCodeFromUrl = code => code.slice(code.length - 11);
-
-export const RELEVANCE = {
-  'mandatory': {
-    colour: 'rgb(200,255,200)',
-    alert: 'We require that you watch this lecture.',
-    select: 'I want to do the bare minimum',
-  },
-  'catchup': {
-    colour: 'rgb(200,200,255)',
-    alert: 'These are COMP1531 lectures for postgrads who want to catch up on some core assumed content.',
-  },
-  'recommended': {
-    colour: 'rgb(255,200,255)',
-    alert: 'You will survive without watching this, but we recommend that a typical student should watch.',
-    select: 'I want to work hard but not go over the top',
-  },
-  'extension': {
-    colour: 'rgb(255,200,200)',
-    alert: 'You will be completely fine without watching this - no issues at all! This is just for the keen beans with spare time or a lot curiosity',
-    select: 'I want to learn everything',
-  },
-}

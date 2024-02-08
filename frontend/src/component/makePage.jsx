@@ -31,19 +31,17 @@ const makePage = (Component, options) => {
       }
     }, [cookies]);
 
-    console.log(getters.term, getters.validTerms, getters.loggedIn);
-
     React.useEffect(() => {
       if (options.loginRequired && !cookies.eckles_loggedin) {
         window.location.href = `${config.BASE_NAME}login`;
       }
       if (getters.term && getters.validTerms.includes(getters.term)) {
-        setters.setLoaded(true);
-        /*loadContent(getters.term, getters.loggedIn)
+        loadContent(getters.term, getters.loggedIn)
           .then(content => {
             setters.setContent(content);
+            setters.setLoaded(true);
           })
-          .catch((err) => console.log('Error!', err));*/
+          .catch((err) => console.log('Error!', err));
       }
     }, [getters.term, getters.validTerms, getters.loggedIn]);
     if (!getters.loaded) {

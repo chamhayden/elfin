@@ -16,6 +16,12 @@ import StyleIcon from '@mui/icons-material/Style';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PaletteIcon from '@mui/icons-material/Palette';
+import BookIcon from '@mui/icons-material/Book';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import GradeIcon from '@mui/icons-material/Grade';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 export const getPrimaryNavList = (term) => {
   return [
@@ -30,30 +36,52 @@ export const getPrimaryNavList = (term) => {
       title: 'Course Outline',
       loginRequired: false,
       route: '/course-outline',
-      Icon: SubjectIcon,
+      Icon: BookIcon,
       description: 'View the course outline to get an overview of the course',
     },
     {
       title: 'Forum',
       route: 'https://edstem.org/au/join/ptQY8C',
       external: true,
-      loginRequired: true,
+      loginRequired: false,
       Icon: ForumIcon,
       description: 'Post questions and get answers about course or content queries',
     },
     {
       title: 'Timetable',
-      route: '/timetable',
-      loginRequired: true,
+      loginRequired: false,
       Icon: AccessTimeIcon,
       description: 'View the lecture, tutorial, and help session timetable',
-    },
-    {
-      title: 'Getting Started',
-      route: '/getting-started',
-      loginRequired: true,
-      Icon: AccessTimeIcon,
-      description: 'Help on getting started with the course',
+      children: [
+        {
+          title: 'Lectures',
+          route: '/timetable/lectures',
+          loginRequired: false,
+          Icon: TheatersIcon,
+          description: 'View the lecture, tutorial, and help session timetable',
+        },
+        {
+          title: 'Tutes & Labs',
+          route: '/timetable/tute-labs',
+          loginRequired: false,
+          Icon: SchoolIcon,
+          description: 'View the lecture, tutorial, and help session timetable',
+        },
+        {
+          title: 'Mega-tutorials',
+          route: '/timetable/mega-tutes',
+          loginRequired: true,
+          Icon: BeachAccessIcon,
+          description: 'View the lecture, tutorial, and help session timetable',
+        },
+        {
+          title: 'Help Sessions',
+          route: '/timetable/help-sessions',
+          loginRequired: true,
+          Icon: LocalHospitalIcon,
+          description: 'View the lecture, tutorial, and help session timetable',
+        },
+      ]
     },
     {
       title: 'Content',
@@ -76,47 +104,34 @@ export const getPrimaryNavList = (term) => {
           description: 'View tutorial content, questions, and videos',
         },
         {
-          title: 'Labs',
-          route: '/content/labs',
+          title: 'Major Project',
+          route: '/content/project/spec',
           loginRequired: true,
-          Icon: SchoolIcon,
+          Icon: RocketLaunchIcon,
           description: 'View lab content',
         },
         {
-          title: 'Major Project',
-          route: '/project',
-          loginRequired: true,
-          Icon: SchoolIcon,
-          description: 'View lab content',
+          title: 'Practice Work',
+          route: '/content/practice',
+          Icon: PsychologyIcon,
+          description: 'A further list of practice activities',
         },
       ],
     },
     {
-      title: 'Help',
+      title: 'Getting Started',
+      route: '/getting-started',
       loginRequired: true,
       Icon: LocalHospitalIcon,
-      description: '',
-      children: [
-        {
-          title: 'Practice Activities',
-          route: '/help/practice-activities',
-          Icon: LocalLibraryIcon,
-          description: 'A further list of practice activities',
-        },
-      ]
+      description: 'Help on getting started with the course',
     },
+    {
+      title: 'Grades',
+      loginRequired: true,
+      route: 'https://cgi.cse.unsw.edu.au/~give/Student/sturec.php',
+      external: true,
+      Icon: GradeIcon,
+      description: '',
+    }
   ];
 };
-
-export const getSecondaryNavList = (term) => {
-  return [
-    /*{
-      title: 'Feedback',
-      loginRequired: true,
-      route: 'https://docs.google.com/forms/d/e/1FAIpQLScTvTvH1Hm64hLefcMoZrhRzuyxcnZUw6ekOjHTF23cD8eweg/viewform',
-      external: true,
-      Icon: HearingIcon,
-      description: 'Provide feedback to course staff if you have any comments to share',
-    },*/
-  ];
-}
