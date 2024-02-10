@@ -14,7 +14,7 @@ import makePage from '../../component/makePage';
 const ContentTutorials = ({ }) => {
   return (
     <>
-      Tutorials
+      Coming Soon
     </>
   );
 };

@@ -3,6 +3,7 @@ import { createContext } from 'react';
 
 export const initialValue = {
   sidebarOpen: true,
+  youtubeurl: null,
   content: {},
   loaded: false,
   loggedIn: false,

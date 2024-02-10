@@ -3,13 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from '../../component/Table';
 import Button from '@mui/material/Button';
 import { isTinyMobileWidth, isDesktopWidth } from '../../util/screen';
 
@@ -20,55 +14,59 @@ import makePage from '../../component/makePage';
 import config from '../../config';
 
 const TimetableLectures = () => {
-  const { getters } = useContext(Context);
+  const { getters, setters } = useContext(Context);
+
+  const data = getters.content.timetable_lectures.map((lecture, idx) => {
+    return [
+      {
+        key: 'week',  
+        data: lecture.week,
+        width: 80,
+      },
+      {
+        key: 'daytime',
+        data: lecture.daytime,
+        flex: 1,
+      },{
+        key: 'topics',
+        data: lecture.topics(),
+        flex: 2,
+        render: (params) => {
+          return params.value.map((t, idx) => (
+            <>
+              {idx !== 0 ? ', ' : ''}
+              <a
+                target="_blank"
+                href={`https://teaching.bitflip.com.au/1531/${getters.term}/${t.slug}.html`}>{t.emoji} {t.name}
+              </a>
+            </>
+          ));
+        },
+        showWidth: 1100,
+      },
+      {
+        key: 'location',
+        flex: 1,
+        data: {
+          location: lecture.location,
+          locationurl: lecture.locationurl,
+          streamurl: lecture.streamurl,
+        },
+        render: (params) => {
+          return (
+            <>
+              <a target="_blank" href={params.value.streamurl}>Online</a>
+              &nbsp;|&nbsp;
+              <a target="_blank" href={params.value.locationurl}>{params.value.location}</a>
+            </>
+          )
+        },
+      },
+    ];
+  });
   return <>
-    {/*<TableContainer component={Paper} sx={{maxWidth: 1000, margin: '0px auto'}}>
-      <Table sx={{ minWidth: 350, }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell><Typography variant="h6">Week</Typography></TableCell>
-            <TableCell align="left"><Typography variant="h6">Day</Typography></TableCell>
-            <TableCell align="left"><Typography variant="h6">Time</Typography></TableCell>
-            {!isTinyMobileWidth() && <TableCell align="left"><Typography variant="h6">Lecturer</Typography></TableCell>}
-            {getters.loggedIn && isDesktopWidth() && <TableCell align="left"><Typography variant="h6">Content</Typography></TableCell>}
-            {getters.loggedIn && <TableCell align="left"><Typography variant="h6">Join</Typography></TableCell>}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {getters.content.schedule_lectures.map((row, rowKey) => (
-            <TableRow
-              key={rowKey}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                <Typography variant="h6">{row.week().week}</Typography>
-              </TableCell>
-              <TableCell align="left">{row.day}</TableCell>
-              <TableCell align="left">{row.time}</TableCell>
-              {!isTinyMobileWidth() && <TableCell align="left">Hayden</TableCell>}
-              {getters.loggedIn && isDesktopWidth() && <TableCell align="left">
-                {row.content_lectures && (
-                  <>
-                    {
-                    row.content_lectures().map(r => (
-                      <div><Link to={`/${getters.term}/content/lectures/${r.key}`}>{r.name}</Link></div>
-                    ))
-                  }</>
-                )}                
-              </TableCell>}
-              {getters.loggedIn &&
-                <TableCell align="left">
-                  <h4>In-person in CLB7</h4><br />
-                  <Button variant="contained" onClick={() => {
-                    window.location.href = `${row.call_url_h}`;
-                  }}>Watch Live</Button>
-                </TableCell>}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>*/}
-  </>;
+    <Table data={data} maxWidth={1200} />
+  </>
 };
 
 export default makePage(TimetableLectures, {

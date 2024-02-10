@@ -12,6 +12,7 @@ import { Context, initialValue } from './context';
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(initialValue.sidebarOpen);
   const [content, setContent] = React.useState(initialValue.content);
+  const [youtubeurl, setYoutubeurl] = React.useState(initialValue.youtubeurl);
   const [loaded, setLoaded] = React.useState(initialValue.loaded);
   const [loggedIn, setLoggedIn] = React.useState(initialValue.loggedIn);
   const [title, setTitle] = React.useState(initialValue.title);
@@ -23,6 +24,7 @@ const App = () => {
   const getters = {
     sidebarOpen,
     content,
+    youtubeurl,
     loaded,
     loggedIn,
     title,
@@ -34,6 +36,7 @@ const App = () => {
   const setters = {
     setSidebarOpen,
     setContent,
+    setYoutubeurl,
     setLoaded,
     setLoggedIn,
     setTitle,

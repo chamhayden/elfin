@@ -66,8 +66,7 @@ const Dashboard = ({ }) => {
       </div>*/}
       <div style={{textAlign: 'center', lineHeight: '150%', fontSize: '1.5em'}}>
       Welcome to COMP1531 for 24T1.<br /><br />
-      More information will be available on this page once the course goes live on Saturday the 10th of February.<br /><br />
-      In the meantime, PLEASE fill out the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o_RvPhdrUs1DpZ0MlMs_Bf1UQTJRUDU1STFHVDFPSjk2MzIxVkVaTklJVy4u" target="_blank">Group Preference Form</a><br /><br />
+      PLEASE fill out the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o_RvPhdrUs1DpZ0MlMs_Bf1UQTJRUDU1STFHVDFPSjk2MzIxVkVaTklJVy4u" target="_blank">Group Preference Form</a><br /><br />
       If you have any issues, please contact cs1531@cse.unsw.edu.au.
       </div>
     </>

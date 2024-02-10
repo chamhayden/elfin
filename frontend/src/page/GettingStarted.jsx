@@ -15,7 +15,7 @@ import makePage from '../component/makePage';
 const GettingStarted = ({ }) => {
   return (
     <>
-      Lectures
+      Coming Soon
     </>
   );
 };

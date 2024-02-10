@@ -5,15 +5,16 @@ import { getYoutubeCodeFromUrl } from '../util/content';
 import { isMobileWidth, isDesktopWidth } from '../util/screen';
 
 const Youtube = ({ code }) => {
+  console.log('code', code);
   const { getters, setters } = useContext(Context);
+  if (!code) return <></>;
 
-  const factor = isMobileWidth() ? 0.8 : isDesktopWidth() ? 0.91 : 0.88
-  const width = window.innerWidth * factor - (getters.sidebarOpen ? 230 : 0);
+  const width = window.innerWidth * 0.95;
 
   const codeShort = code.includes('https') ? getYoutubeCodeFromUrl(code) : code;
 
   return (<>
-    <div style={{margin: '0 auto', textAlign: 'center'}}>
+    <div style={{margin: '0 auto', textAlign: 'center' }}>
       <iframe
         width={width}
         height={Math.round(9/16*width)}

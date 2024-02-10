@@ -14,18 +14,22 @@ config.runSchema = {
 
 config.contentSchema = {
   timetable_lectures: {
-    joins: {},
+    joins: {
+      topics: ['content_lectures', false]
+    },
   },
   timetable_tutelab: {
     joins: {
-      staff: ['staff', true],
+      staff: ['staff', false],
     }
   },
   timetable_megatute: {
     joins: {},
   },
   timetable_helpsessions: {
-    joins: {},
+    joins: {
+      tutors: ['staff', false],
+    },
   },
   content_lectures: {
     joins: {},
