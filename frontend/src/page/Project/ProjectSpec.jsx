@@ -16,7 +16,6 @@ import { Context, useContext } from '../../context';
 
 const ProjectSpec = ({ }) => {
   const { getters, setters } = useContext(Context);
-  console.log('getters.content.group', getters.content.group);
   return (
     <>
       {getters.content && getters.content.group ? (

@@ -105,7 +105,7 @@ const TutelabsContent = ({ }) => {
             <>
               <div style={{ lineHeight: '200%', padding: '5px' }}>
               {Object.keys(params.value).map((exercise, idx2) => (
-                <><a target="_blank" href={`https://cgi.cse.unsw.edu.au/~cs1531/redirect/?path=COMP1531/${getters.term}/students/_/${exercise}`}>{params.value[exercise].critical ? <><b>{exercise} ({params.value[exercise].marks} mark) (important)</b></> : <>{exercise} ({params.value[exercise].marks} mark)</>}</a><br /></>
+                <><a target="_blank" href={`https://nw-syd-gitlab.cseunsw.tech/COMP1531/${getters.term}/students/z${getters.zid}/${exercise}`}>{params.value[exercise].critical ? <><b>{exercise} ({params.value[exercise].marks} mark) (important)</b></> : <>{exercise} ({params.value[exercise].marks} mark)</>}</a><br /></>
               ))}
               {Object.keys(params.value).length === 0 && (
                 <>No labs this week 🥳</>

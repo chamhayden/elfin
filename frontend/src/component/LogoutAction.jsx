@@ -10,8 +10,6 @@ const LogoutAction = () => {
   React.useEffect(() => {
     removeCookie('eckles_loggedin', { path:'/' });
     removeCookie('eckles_jwt', { path:'/' });
-    localStorage.removeItem('eckles_content');
-    localStorage.removeItem('eckles_expiry');
     localStorage.removeItem('eckles_term');
     setters.setLoggedIn(false);
     navigate('/');

@@ -26,6 +26,7 @@ import GettingStartedOther from './page/GettingStarted/GettingStartedOther';
 import ProjectBase from './page/Project/ProjectBase';
 import ProjectSpec from './page/Project/ProjectSpec';
 import ProjectRuns from './page/Project/ProjectRuns';
+import Staff from './page/Staff';
 import LogoutAction from './component/LogoutAction';
 
 
@@ -69,6 +70,7 @@ const Router = () => {
           <Route path="communication" element={<GettingStartedCommunication />} />
           <Route path="other" element={<GettingStartedOther />} />
         </Route>
+        <Route path="staff" element={<Staff />} />
       </Route>
     </Routes>
   );

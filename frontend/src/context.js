@@ -9,6 +9,7 @@ export const initialValue = {
   loggedIn: false,
   title: 'COMP1531',
   term: '',
+  zid: null,
   validTerms: [],
   screenWidth: 1000,
   istutor: false,

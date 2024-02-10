@@ -27,7 +27,10 @@ const ContentPractice = ({ }) => {
       <br />
       <Typography variant="h6" gutterBottom sx={{ }}>
         <Button variant="contained" size="large" onClick={() => {
-          window.location.href = `https://cgi.cse.unsw.edu.au/~cs1531/redirect/?path=COMP1531/${getters.term}/students/_/practice-activities`;
+          window.open(
+            `https://nw-syd-gitlab.cseunsw.tech/COMP1531/${getters.term}/students/z${getters.zid}/practice-activities`,
+            '_blank'
+          );
         }}>Click here to continue!</Button>
       </Typography>
     </>

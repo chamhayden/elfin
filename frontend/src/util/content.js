@@ -30,7 +30,6 @@ const joinContent = (content, schema) => {
       }
     }
   }
-  console.log(content.group);
   return {
     ...newContent,
     group: group,

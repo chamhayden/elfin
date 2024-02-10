@@ -5,7 +5,6 @@ import { getYoutubeCodeFromUrl } from '../util/content';
 import { isMobileWidth, isDesktopWidth } from '../util/screen';
 
 const Youtube = ({ code }) => {
-  console.log('code', code);
   const { getters, setters } = useContext(Context);
   if (!code) return <></>;
 

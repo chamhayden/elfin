@@ -31,8 +31,6 @@ const Table = ({ data, maxWidth, ...props }) => {
     }));
   }, [window.innerWidth]);
   
-  console.log('colDefs', colDefs)
-  console.log('rowData', rowData)
   return (
     <div style={{ maxWidth: maxWidth ?? 900, }}>
       <AgGridReact domLayout={'autoHeight'} {...props} className="ag-theme-alpine" rowData={rowData} columnDefs={colDefs} />

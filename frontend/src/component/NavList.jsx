@@ -19,6 +19,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import BookIcon from '@mui/icons-material/Book';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import GradeIcon from '@mui/icons-material/Grade';
+import HailIcon from '@mui/icons-material/Hail';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
@@ -131,6 +132,13 @@ export const getPrimaryNavList = (term) => {
       route: 'https://cgi.cse.unsw.edu.au/~give/Student/sturec.php',
       external: true,
       Icon: GradeIcon,
+      description: '',
+    },
+    {
+      title: 'Staff',
+      loginRequired: true,
+      route: '/staff',
+      Icon: HailIcon,
       description: '',
     }
   ];

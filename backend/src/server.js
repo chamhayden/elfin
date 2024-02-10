@@ -199,6 +199,9 @@ const setCookie = (res, zid) => {
   res.cookie('eckles_loggedin', true, {
     maxAge: config.COOKIE_EXPIRY * 1000,
   });
+  res.cookie('eckles_zid', zid, {
+    maxAge: config.COOKIE_EXPIRY * 1000,
+  });
 };
 
 app.post('/api/login', (req, res, next) => {

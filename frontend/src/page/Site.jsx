@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import { Outlet, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { useCookies } from 'react-cookie';
 
 import { Context, useContext } from '../context';
 import Header from '../component/Header';
@@ -18,6 +19,7 @@ import { isMobileWidth, isDesktopWidth } from '../util/screen';
 const drawerWidth = 230;
 
 const SiteWrapper = ({ children }) => {
+  const [cookies, setCookie, removeCookie] = useCookies();
   const { getters, setters } = useContext(Context);
   const params = useParams();
   const { pathname } = useLocation();
@@ -32,6 +34,10 @@ const SiteWrapper = ({ children }) => {
       setters.setSidebarOpen(true);
     }
   };
+
+  React.useEffect(() => {
+    setters.setZid(cookies.eckles_zid);
+  }, [cookies]);
 
   React.useEffect(() => {
     window.addEventListener('resize', () => {

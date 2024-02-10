@@ -100,7 +100,6 @@ const SignIn = (props) => {
     setLoading(true);
     apiCall('login', { term, zid, zpass }, 'POST', handleClickOpen)
       .then(_ => {
-        console.log('success');
         localStorage.removeItem('eckles_content');
         localStorage.removeItem('eckles_expiry');
         window.location.href = `${config.BASE_NAME}${term}`
