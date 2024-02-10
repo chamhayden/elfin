@@ -159,5 +159,5 @@ const ProjectRuns = ({ }) => {
 
 export default makePage(ProjectRuns, {
   loginRequired: true,
-  title: 'Project Runs',
+  title: '🚀 Project Runs',
 });

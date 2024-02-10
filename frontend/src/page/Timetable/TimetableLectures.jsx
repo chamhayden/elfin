@@ -55,7 +55,7 @@ const TimetableLectures = () => {
         render: (params) => {
           return (
             <>
-              <a target="_blank" href={params.value.streamurl}>Online</a>
+              <a href="#" onClick={() => setters.setYoutubeurl(params.value.streamurl)}>Online</a>
               &nbsp;|&nbsp;
               <a target="_blank" href={params.value.locationurl}>{params.value.location}</a>
             </>
@@ -71,5 +71,5 @@ const TimetableLectures = () => {
 
 export default makePage(TimetableLectures, {
   loginRequired: false,
-  title: 'Lecture Timetable',
+  title: '🎞️ Lecture Timetable',
 });

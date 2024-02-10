@@ -75,5 +75,5 @@ const Dashboard = ({ }) => {
 
 export default makePage(Dashboard, {
   loginRequired: false,
-  title: 'Dashboard',
+  title: '💪🏻 Dashboard',
 });

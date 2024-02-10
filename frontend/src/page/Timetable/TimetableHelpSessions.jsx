@@ -49,11 +49,20 @@ const TimetableHelpSessions = () => {
     ];
   });
   return <>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px', width: 700}}>
+      Help sessions are run on Microsoft Teams or in-person. Locations of help sessions are below.
+    </Typography>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px', width: 700}}>
+      Please note, help sessions with more tutors will generally have shorter queues. Please plan this accordingly.
+    </Typography>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px 30px 10px', width: 700}}>
+      Please wait in the appropriate <a target="_blank" href="https://web.cse.unsw.edu.au/~apps/hopper">Hopper Queue</a> until a tutor contacts you or invite you into a call.
+    </Typography>
     <Table data={data} maxWidth={1000} />
   </>
 };
 
 export default makePage(TimetableHelpSessions, {
   loginRequired: false,
-  title: 'Help Session Timetable',
+  title: '📖 Help Session Timetable',
 });

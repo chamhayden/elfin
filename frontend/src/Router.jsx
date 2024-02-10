@@ -13,9 +13,16 @@ import TimetableMegaTutorials from './page/Timetable/TimetableMegaTutorials';
 import TimetableHelpSessions from './page/Timetable/TimetableHelpSessions';
 import CourseOutline from './page/CourseOutline';
 import ContentLectures from './page/Content/ContentLectures';
-import ContentTutorials from './page/Content/ContentTutorials';
+import TutelabBase from './page/Content/Tutelabs/TutelabBase';
+import TutelabMarking from './page/Content/Tutelabs/TutelabMarking';
+import TutelabContent from './page/Content/Tutelabs/TutelabContent';
+import TutelabSolutions from './page/Content/Tutelabs/TutelabSolutions';
 import ContentPractice from './page/Content/ContentPractice';
-import GettingStarted from './page/GettingStarted';
+import GettingStartedBase from './page/GettingStarted/GettingStartedBase';
+import GettingStartedCoding from './page/GettingStarted/GettingStartedCoding';
+import GettingStartedCommunication from './page/GettingStarted/GettingStartedCommunication';
+import GettingStartedCoursework from './page/GettingStarted/GettingStartedCoursework';
+import GettingStartedOther from './page/GettingStarted/GettingStartedOther';
 import ProjectBase from './page/Project/ProjectBase';
 import ProjectSpec from './page/Project/ProjectSpec';
 import ProjectRuns from './page/Project/ProjectRuns';
@@ -45,14 +52,23 @@ const Router = () => {
         <Route path="timetable/mega-tutes" element={<TimetableMegaTutorials />} />
         <Route path="timetable/help-sessions" element={<TimetableHelpSessions />} />
         <Route path="content/lectures" element={<ContentLectures />} />
-        <Route path="content/tutorials" element={<ContentTutorials />} />
+        <Route path="content/tutelabs" element={<TutelabBase />}>
+          <Route path="content" element={<TutelabContent />} />
+          <Route path="solutions" element={<TutelabSolutions />} />
+          <Route path="marking" element={<TutelabMarking />} />
+        </Route>
         <Route path="content/project" element={<ProjectBase />}>
           <Route path="spec" element={<ProjectSpec />} />
           <Route path="runs" element={<ProjectRuns />} />
         </Route>
         <Route path="content/practice" element={<ContentPractice />} />
         <Route path="course-outline" element={<CourseOutline />} />
-        <Route path="getting-started" element={<GettingStarted />} />
+        <Route path="getting-started" element={<GettingStartedBase />}>
+          <Route path="coding" element={<GettingStartedCoding />} />
+          <Route path="coursework" element={<GettingStartedCoursework />} />
+          <Route path="communication" element={<GettingStartedCommunication />} />
+          <Route path="other" element={<GettingStartedOther />} />
+        </Route>
       </Route>
     </Routes>
   );

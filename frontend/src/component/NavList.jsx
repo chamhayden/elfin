@@ -97,8 +97,8 @@ export const getPrimaryNavList = (term) => {
           description: 'View lecture content, slides, and videos',
         },
         {
-          title: 'Tutorials',
-          route: '/content/tutorials',
+          title: 'Tutes & Labs',
+          route: '/content/tutelabs',
           loginRequired: true,
           Icon: SchoolIcon,
           description: 'View tutorial content, questions, and videos',

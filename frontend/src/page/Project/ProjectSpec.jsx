@@ -36,5 +36,5 @@ const ProjectSpec = ({ }) => {
 
 export default makePage(ProjectSpec, {
   loginRequired: true,
-  title: 'Major Project',
+  title: '🚀 Major Project',
 });

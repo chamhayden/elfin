@@ -8,14 +8,38 @@ import SchoolIcon from '@mui/icons-material/School';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { Outlet } from 'react-router-dom';
 
-//import SubNavWrapper from '../../component/SubNavWrapper';
+import SubNavWrapper from '../../../component/SubNavWrapper';
 
-import makePage from '../component/makePage';
+import makePage from '../../../component/makePage';
 
 const GettingStarted = ({ }) => {
+  const menu = [
+    {
+      title: 'Content',
+      icon: <TheatersIcon />,
+      subRoute: 'content',
+    },
+    {
+      title: 'Solutions',
+      icon: <SchoolIcon />,
+      subRoute: 'solutions',
+    },
+    {
+      title: 'Marking',
+      icon: <TheatersIcon />,
+      subRoute: 'marking',
+    },
+  ];
+
+  return (
+    <SubNavWrapper baseUrl={'/content/tutelabs'} menu={menu}>
+      <Outlet />
+    </SubNavWrapper>
+  );
   return (
     <>
-      Coming Soon
+      
+
     </>
   );
 };

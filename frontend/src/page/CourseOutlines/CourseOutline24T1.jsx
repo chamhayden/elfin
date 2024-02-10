@@ -218,5 +218,5 @@ const CourseOutline24T1 = () => {
 
 export default makePage(CourseOutline24T1, {
   loginRequired: false,
-  title: 'Course Outline',
+  title: '❤️ Course Outline',
 });

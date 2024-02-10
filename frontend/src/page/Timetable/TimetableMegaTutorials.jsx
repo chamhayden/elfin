@@ -39,7 +39,7 @@ const TimetableMegatutes = () => {
         render: (params) => {
           return (
             <>
-              <a target="_blank" href={params.value.streamurl}>Online</a>
+              <a href="#" onClick={() => setters.setYoutubeurl(params.value.streamurl)}>Online</a>
               &nbsp;|&nbsp;
               <a target="_blank" href={params.value.locationurl}>{params.value.location}</a>
             </>
@@ -49,11 +49,20 @@ const TimetableMegatutes = () => {
     ];
   });
   return <>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px', width: 700}}>
+      Mega tutorials are a new concept being trialed this term to give students even more experience on some more practical elements of the course content (i.e. coding).
+    </Typography>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px', width: 700}}>
+      The course can be comfortably completed without ever attending a mega tutorial.
+    </Typography>
+    <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px 30px 10px', width: 700}}>
+      For recordings, just click on the stream link below. There is only one mega-tutorial and everyone is free to join.
+    </Typography>
     <Table data={data} maxWidth={700} />
   </>
 };
 
 export default makePage(TimetableMegatutes, {
   loginRequired: false,
-  title: 'Mega-tutorial Timetable',
+  title: '☂️ Mega-tutorial Timetable',
 });

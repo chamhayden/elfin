@@ -11,19 +11,23 @@ import { Outlet } from 'react-router-dom';
 import SubNavWrapper from '../../component/SubNavWrapper';
 import makePage from '../../component/makePage';
 
-const ContentProject = ({ }) => {
+const GettingStartedOther = ({ }) => {
   return (
     <>
-      Your major project will be released to you on Gitlab on week 2 Monday.
-
-Once it is released, you are able to see your group repository on the homepage of Gitlab: https://nw-syd-gitlab.cseunsw.tech/dashboard/projects.
-
-Examples of the group project name include WED15A_EGG.
+      <p>The following resources may help you gain a better understanding of javascript and/or git
+      </p>
+      <ul>
+        <li><strong>Git:</strong>
+        <ul>
+          <li><a target="_blank" href="https://www.youtube.com/playlist?list=PLbSaCpDlfd6rseEvuy6DhnuIRXjB9UHK5">UNSW Git videos</a></li>
+          <li><a target="_blank" href="https://www.atlassian.com/git">Atlassian's "Learn Git"</a></li>
+        </ul></li>
+      </ul>
     </>
   );
 };
 
-export default makePage(ContentProject, {
+export default makePage(GettingStartedOther, {
   loginRequired: true,
-  title: 'Major Project',
+  title: '👌 Getting Started - Other',
 });

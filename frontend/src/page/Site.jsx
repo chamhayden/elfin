@@ -72,7 +72,9 @@ const SiteWrapper = ({ children }) => {
         <Navbar drawerWidth={drawerWidth} />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
-          <Outlet />
+          <div style={{  maxWidth: '1200px'}}>
+            <Outlet />
+          </div>
         </Box>
       </Box>
     </>
