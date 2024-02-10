@@ -13,12 +13,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 import { Context, useContext } from '../../context';
 import { apiCall } from '../../util/api';
 import makePage from '../../component/makePage';
+import Table from '../../component/Table';
 
 const ProjectRuns = ({ }) => {
 
@@ -31,7 +30,6 @@ const ProjectRuns = ({ }) => {
   const getData = () => {
     apiCall('runs', { term: getters.term })
     .then(data => {
-      console.log(data);
       setRuns(data);
     });
   }
@@ -67,13 +65,67 @@ const ProjectRuns = ({ }) => {
   }
 
   if (!getters.isTutor) {
-    return <div style={{ textAlign: 'center' }}>You are not currently assigned a group. Check back later.</div>
+    return <div style={{}}>You are not currently assigned a group. Check back later.</div>
   }
+
+  const data = runs.map((row, idx) => {
+    const date = new Date(Date.parse(row.created));
+    return [
+      {
+        key: 'submitted_at',
+        data: `${
+          (date.getMonth()+1).toString().padStart(2, '0')
+        }${
+          '-'
+        }${
+          (date.getDate()).toString().padStart(2, '0')
+        }${
+          'T'
+        }${
+          (date.getHours()).toString().padStart(2, '0')
+        }${
+          '-'
+        }${
+          (date.getMinutes()).toString().padStart(2, '0')
+        }`,
+        width: '150px',
+      },
+      {
+        key: 'commit_hash',
+        data: row.commithash,
+        width: '150px'
+      },
+      {
+        key: 'status',
+        data: { status: row.status, record: row.record },
+        render: (params) => {
+          return (
+            <>
+              {params.value.status}
+              {params.value.status === 'pending' && (
+                <span style={{ cursor: 'pointer' }} onClick={() => cancelPending(params.value.record)}>&nbsp;<button>Cancel ❌</button></span>
+              )}
+            </>
+          );
+        },
+      },
+      {
+        key: 'type',
+        data: row.type,
+        width: '150px',
+      },
+      {
+        key: 'results',
+        data: row.results,
+        flex: 1,
+      },
+    ]
+  });
   
   return (
     <>
       {!getters.content.group && (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{}}>
           <span style={{ fontSize: '1.5em', marginTop: '10px' }}>Request a rerun for {getters.content.group}</span>
           &nbsp;&nbsp;&nbsp;
           <FormControl>
@@ -109,49 +161,11 @@ const ProjectRuns = ({ }) => {
       <br />
       <hr />
       <br />
+
       {runs.length === 0 ? (
-        <div style={{ textAlign: 'center' }}>Loading...</div>
+        <div style={{}}>Loading...</div>
       ) : (
-        <Table aria-label="simple table" style={{ textAlign: 'center'}}>
-          <Thead>
-            <Tr>
-              <Th><b>Submitted at</b></Th>
-              {/*<Th><b>Submitter (zid)</b></Th>*/}
-              <Th><b>Commit Hash</b></Th>
-              <Th><b>Status</b></Th>
-              <Th><b>Type</b></Th>
-              <Th><b>Results</b></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {runs.map((row, idx) => {
-              const date = new Date(Date.parse(row.created));
-              return (
-                <Tr
-                  key={row.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <Td>
-                    {(date.getMonth()+1).toString().padStart(2, '0')}-
-                    {(date.getDate()).toString().padStart(2, '0')}
-                    T
-                    {(date.getHours()).toString().padStart(2, '0')}-
-                    {(date.getMinutes()).toString().padStart(2, '0')}
-                  </Td>
-                  {/*<Td>{row.zid}</Td>*/}
-                  <Td>{row.commithash}</Td>
-                  <Td>{row.status}
-                  {row.status === 'pending' && (
-                    <span style={{ cursor: 'pointer' }} onClick={() => cancelPending(row.record)}>❌</span>
-                  )}
-                  </Td>
-                  <Td>{row.type}</Td>
-                  <Td>{row.results}</Td>
-                </Tr>
-              )
-            })}
-          </Tbody>
-        </Table>
+        <Table data={data} maxWidth={1200} />
       )}
     </>
   );

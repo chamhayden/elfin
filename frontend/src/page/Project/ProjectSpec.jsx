@@ -20,13 +20,13 @@ const ProjectSpec = ({ }) => {
   return (
     <>
       {getters.content && getters.content.group ? (
-        <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" gutterBottom sx={{ }}>
           <Button variant="contained" size="large" onClick={() => {
             window.location.href = `https://nw-syd-gitlab.cseunsw.tech/COMP1531/${getters.term}/groups/${getters.content.group}/project-backend`;
           }}>Click here to continue!</Button>
         </Typography>
       ) : (
-        <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" gutterBottom sx={{ }}>
           Your major project has yet to be released
         </Typography>
       )}

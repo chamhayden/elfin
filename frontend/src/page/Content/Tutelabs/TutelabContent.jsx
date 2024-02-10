@@ -22,7 +22,7 @@ const TutelabsContent = ({ }) => {
         'lab01_leap': { marks: 0, critical: false },  
         'lab01_academics': { marks: 0, critical: true },
       },
-      notes: 'We will start give you a mark, but we won\'t count that towards your final grade',
+      notes: 'We will still give you a mark, but we won\'t count that towards your final grade',
     },
     {
       tutorial: true,

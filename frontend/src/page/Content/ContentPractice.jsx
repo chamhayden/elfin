@@ -18,14 +18,14 @@ const ContentPractice = ({ }) => {
   const { getters, setters } = useContext(Context);
   return (
     <>
-      <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" gutterBottom sx={{ }}>
         We have provided a number of practice activities for you that also include solutions.
       </Typography>
-      <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" gutterBottom sx={{ }}>
         Every student has their own copy of this repo.
       </Typography>
       <br />
-      <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" gutterBottom sx={{ }}>
         <Button variant="contained" size="large" onClick={() => {
           window.location.href = `https://cgi.cse.unsw.edu.au/~cs1531/redirect/?path=COMP1531/${getters.term}/students/_/practice-activities`;
         }}>Click here to continue!</Button>

@@ -46,25 +46,7 @@ const Dashboard = ({ }) => {
   };
   return (
     <>
-      {/*<SessionAlert redirect={redirect}/>*/}
-      {/*<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '25px' }}>
-        {flattenedNavList.map((card, key) => {
-          if (card.loginRequired && !getters.loggedIn) return <></>;
-          return (
-            <Card onClick={() => redirect(getUrl(card.route, card.external))} sx={{ minWidth: 275, flex: 1, height: 150, cursor: 'pointer' }}>
-              <CardContent>
-                <Typography variant="h5" component="div" sx={{ mb: 3 }}>
-                  <card.Icon style={{paddingTop: '5px' }} /> {card.title}
-                </Typography>
-                <Typography variant="body2">
-                  {card.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>*/}
-      <div style={{textAlign: 'center', lineHeight: '150%', fontSize: '1.5em'}}>
+      <div style={{lineHeight: '150%', fontSize: '1.5em'}}>
       Welcome to COMP1531 for 24T1.<br /><br />
       PLEASE fill out the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o_RvPhdrUs1DpZ0MlMs_Bf1UQTJRUDU1STFHVDFPSjk2MzIxVkVaTklJVy4u" target="_blank">Group Preference Form</a><br /><br />
       If you have any issues, please contact cs1531@cse.unsw.edu.au.

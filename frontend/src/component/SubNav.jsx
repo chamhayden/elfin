@@ -23,13 +23,14 @@ const SubNav = ({ menu, baseUrl, sidebarOpen }) => {
   return (
     <Box sx={{ pb: 7 }} ref={ref}>
       <CssBaseline />
-      <Paper sx={{ minWidth: '400px', position: 'fixed', top: 61, zIndex: 9999, left: getters.sidebarOpen ? '230px' : 0, right: 0 }} elevation={3}>
+      <Paper sx={{ minWidth: '400px',position: 'fixed', top: 61, zIndex: 9999, left: getters.sidebarOpen ? '230px' : 0, right: 0 }} elevation={3}>
         <BottomNavigation
           showLabels
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
+          style={{ justifyContent: 'left' }}
         >
           {menu.map(({ title, icon, subRoute }, key) => (
             <BottomNavigationAction key={key} label={title} icon={icon} onClick={() => navigate(`/${getters.term}${baseUrl}/${subRoute}`)} />
