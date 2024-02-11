@@ -29,7 +29,7 @@ const TimetableLectures = () => {
         flex: 1,
       },{
         key: 'topics',
-        data: lecture.topics(),
+        data: lecture.topics ? lecture.topics() : [],
         flex: 2,
         render: (params) => {
           return params.value.map((t, idx) => (
@@ -37,7 +37,7 @@ const TimetableLectures = () => {
               {idx !== 0 ? ', ' : ''}
               <a
                 target="_blank"
-                href={`https://teaching.bitflip.com.au/1531/${getters.term}/${t.slug}.html`}>{t.emoji} {t.name}
+                href={`https://teaching.bitflip.com.au/1531/${getters.term}/${t.number}-${t.slug}.html`}>{t.emoji} {t.name}
               </a>
             </>
           ));
@@ -55,8 +55,12 @@ const TimetableLectures = () => {
         render: (params) => {
           return (
             <>
-              <a href="#" onClick={() => setters.setYoutubeurl(params.value.streamurl)}>Online</a>
-              &nbsp;|&nbsp;
+              {params.value.streamurl && (
+                <>
+                  <a href="#" onClick={() => setters.setYoutubeurl(params.value.streamurl)}>Online</a>
+                  &nbsp;|&nbsp;
+                </>
+              )}
               <a target="_blank" href={params.value.locationurl}>{params.value.location}</a>
             </>
           )

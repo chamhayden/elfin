@@ -38,15 +38,16 @@ const ContentLectures = ({ }) => {
       {
         key: 'links',
         data: {
+          number: lecture.number,
           slug: lecture.slug,
           recordingurl: lecture.recordingurl,
         },
         render: (params) => {
           return (
             <>
-              <a target="_blank" href={`https://teaching.bitflip.com.au/1531/${getters.term}/${params.value.slug}.html`}>Slides</a>
+              <a target="_blank" href={`https://teaching.bitflip.com.au/1531/${getters.term}/${params.value.number}-${params.value.slug}.html`}>Slides</a>
               &nbsp;|&nbsp;
-              <a target="_blank" href={`https://teaching.bitflip.com.au/1531/${getters.term}/${params.value.slug}.pdf`}>PDF</a>
+              <a target="_blank" href={`https://teaching.bitflip.com.au/1531/${getters.term}/${params.value.number}-${params.value.slug}.pdf`}>PDF</a>
               &nbsp;|&nbsp;
               {params.value.recordingurl ? <a href="#" onClick={() => setters.setYoutubeurl(params.value.recordingurl)}>Video</a> : 'Video'}
             </>
