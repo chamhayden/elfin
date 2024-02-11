@@ -8,7 +8,8 @@ const Youtube = ({ code }) => {
   const { getters, setters } = useContext(Context);
   if (!code) return <></>;
 
-  const width = window.innerWidth * 0.95;
+
+  const width = Math.min(window.innerWidth * 0.95, (window.innerHeight - 200) * 16 / 9);
 
   const codeShort = code.includes('https') ? getYoutubeCodeFromUrl(code) : code;
 
