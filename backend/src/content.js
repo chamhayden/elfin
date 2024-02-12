@@ -50,15 +50,17 @@ const generateContent = (term, schema) => {
         base(table).select({
             maxRecords: 10000000,
             view: 'API',
-        }).eachPage(records => {
+        }).eachPage((records, fetchNextPage) => {
+          console.log(table);
           records.forEach(record => {
             obj[table][record.id] = {};
             Object.keys(record.fields).forEach(field => {
               obj[table][record.id][field] = record.get(field);
             });
           });
-          resolve();
+          fetchNextPage();
         }, function done(err) {
+            if (!err) { resolve() }
             if (err) { reject(err); return; }
         });
       });
