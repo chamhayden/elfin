@@ -38,6 +38,7 @@ const makePage = (Component, options) => {
       if (getters.term && getters.validTerms.includes(getters.term)) {
         loadContent(getters.term, getters.loggedIn)
           .then(content => {
+            console.log('content', content)
             setters.setContent(content);
             setters.setLoaded(true);
           })

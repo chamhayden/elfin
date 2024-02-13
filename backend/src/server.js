@@ -98,6 +98,34 @@ const buildGroups = (term) => {
   })(term);
 };
 
+const buildForum = (term) => {
+  return ((innerTerm) => {
+    return new Promise((resolve, reject) => {
+      const edCourseNumber = config.TERMS[term].ED_COURSE_NUMBER;
+      console.log('hi');
+      fetch(`https://edstem.org/api/courses/${edCourseNumber}/threads?limit=30&sort=new`, {
+        method: 'GET',
+        headers: {
+          'X-Token': config.TERMS[term].ED_TOKEN,
+        }
+      }).then(r => r.json()).then(data => {
+        const notices = data.threads.filter(t => t.is_pinned).map(t => ({
+          url: `https://edstem.org/au/courses/${edCourseNumber}/discussion/${t.id}`,
+          title: t.title,
+          document: t.document,
+          created_at: t.created_at,
+        }));
+        lock.acquire('data', (done) => {
+          builtData[innerTerm].forum = notices;
+          done();
+        });
+        resolve();
+      });
+      setTimeout(() => buildForum(innerTerm), 1000 * 60 * 10); // 10 minutes
+    });
+  })(term);
+};
+
 const wrapRuns = (term, zid) => {
 
   const rawData = Object.keys(builtData[term].runs).map(k => ({ ...builtData[term].runs[k], created: new Date(builtData[term].runs[k].created), record: k }));
@@ -345,6 +373,7 @@ app.post('/api/content', (req, res) => {
           res.json({
             ...builtData[term].content,
             group: getGroupOfStudent(builtData[term].groups, decoded.data),
+            forum: builtData[term].forum
           })
           done();
         });
@@ -389,6 +418,7 @@ app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../frontend/bui
 buildRuns(config.TERM_DEFAULT)
 buildGroups(config.TERM_DEFAULT)
 buildContent(config.TERM_DEFAULT)
+buildForum(config.TERM_DEFAULT)
 .then(_ => 
   app.listen(config.PORT, () => {
     console.log(`Example app listening on port ${config.PORT}`)

@@ -51,7 +51,6 @@ const generateContent = (term, schema) => {
             maxRecords: 10000000,
             view: 'API',
         }).eachPage((records, fetchNextPage) => {
-          console.log(table);
           records.forEach(record => {
             obj[table][record.id] = {};
             Object.keys(record.fields).forEach(field => {

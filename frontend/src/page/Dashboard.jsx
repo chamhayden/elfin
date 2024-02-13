@@ -48,8 +48,16 @@ const Dashboard = ({ }) => {
     <>
       <div style={{lineHeight: '150%', fontSize: '1.5em'}}>
       Welcome to COMP1531 for 24T1.<br /><br />
-      PLEASE fill out the <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o_RvPhdrUs1DpZ0MlMs_Bf1UQTJRUDU1STFHVDFPSjk2MzIxVkVaTklJVy4u" target="_blank">Group Preference Form</a><br /><br />
-      If you have any issues, please contact cs1531@cse.unsw.edu.au.
+      Check out some recent notices!<br />
+      {getters.content.forum.map((post, idx) => (
+        <Card variant="outlined" sx={{ padding: '20px', margin: '20px 0' }}>
+          <h3 style={{ margin: 0, padding: 0}}>{post.title}</h3>
+          <span style={{ fontSize: '0.6em' }}>Posted {post.created_at}</span>
+          <div style={{ marginTop: '20px', fontSize: '0.8em', lineHeight: '110%' }} dangerouslySetInnerHTML={{ __html: post.document.replaceAll('\n', '<br />').substring(0, 300) + `......`}}></div><br />
+          <a target="_blank" href={post.url}>READ FULL NOTICE</a>
+        </Card>
+      ))}
+
       </div>
     </>
   );
