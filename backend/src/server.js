@@ -102,14 +102,12 @@ const buildForum = (term) => {
   return ((innerTerm) => {
     return new Promise((resolve, reject) => {
       const edCourseNumber = config.TERMS[term].ED_COURSE_NUMBER;
-      console.log('hi');
       fetch(`https://edstem.org/api/courses/${edCourseNumber}/threads?limit=30&sort=new`, {
         method: 'GET',
         headers: {
           'X-Token': config.TERMS[term].ED_TOKEN,
         }
       }).then(r => r.json()).then(data => {
-        console.log('data', data);
         if (data.threads) {
           const notices = data.threads.filter(t => t.is_pinned).map(t => ({
             url: `https://edstem.org/au/courses/${edCourseNumber}/discussion/${t.id}`,
