@@ -32,6 +32,7 @@ const makePage = (Component, options) => {
     }, [cookies]);
 
     React.useEffect(() => {
+      console.log('a', options.loginRequired, cookies.eckles_loggedin)
       if (options.loginRequired && !cookies.eckles_loggedin) {
         window.location.href = `${config.BASE_NAME}login`;
       }

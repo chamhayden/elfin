@@ -77,6 +77,6 @@ const TimetableLectures = () => {
 };
 
 export default makePage(TimetableLectures, {
-  loginRequired: false,
+  loginRequired: true,
   title: '🎞️ Lecture Timetable',
 });

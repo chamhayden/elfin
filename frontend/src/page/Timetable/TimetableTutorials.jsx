@@ -57,6 +57,6 @@ const TimetableTutorials = () => {
 };
 
 export default makePage(TimetableTutorials, {
-  loginRequired: false,
+  loginRequired: true,
   title: '🎓 Tutes & Labs Timetable',
 });
