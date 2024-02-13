@@ -16,6 +16,9 @@ import config from '../../config';
 const TimetableLectures = () => {
   const { getters, setters } = useContext(Context);
 
+  if (!getters.content) {
+    return <>Loading...</>
+  }
   const data = getters.content.timetable_lectures.map((lecture, idx) => {
     return [
       {

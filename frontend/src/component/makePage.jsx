@@ -36,13 +36,17 @@ const makePage = (Component, options) => {
         window.location.href = `${config.BASE_NAME}login`;
       }
       if (getters.term && getters.validTerms.includes(getters.term)) {
-        loadContent(getters.term, getters.loggedIn)
-          .then(content => {
-            console.log('content', content)
-            setters.setContent(content);
-            setters.setLoaded(true);
-          })
-          .catch((err) => console.log('Error!', err));
+        if (cookies.eckles_loggedin) {
+          loadContent(getters.term, getters.loggedIn)
+            .then(content => {
+              console.log('content', content)
+              setters.setContent(content);
+              setters.setLoaded(true);
+            })
+            .catch((err) => console.log('Error!', err));
+        } else {
+          setters.setLoaded(true);
+        }
       }
     }, [getters.term, getters.validTerms, getters.loggedIn]);
     if (!getters.loaded) {

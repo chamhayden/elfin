@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useCookies } from 'react-cookie';
 
 import SubNav from '../component/SubNav';
 import makePage from '../component/makePage';
@@ -17,6 +18,7 @@ import SessionAlert from '../component/SessionAlert';
 const Dashboard = ({ }) => {
   const { getters, setters } = useContext(Context);
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies();
 
   const flattenedNavList = [];
   getPrimaryNavList(getters.term).map(i => {
@@ -48,15 +50,23 @@ const Dashboard = ({ }) => {
     <>
       <div style={{lineHeight: '150%', fontSize: '1.5em'}}>
       Welcome to COMP1531 for 24T1.<br /><br />
-      Check out some recent notices!<br />
-      {getters.content.forum.map((post, idx) => (
-        <Card variant="outlined" sx={{ padding: '20px', margin: '20px 0' }}>
-          <h3 style={{ margin: 0, padding: 0}}>{post.title}</h3>
-          <span style={{ fontSize: '0.6em' }}>Posted {post.created_at}</span>
-          <div style={{ marginTop: '20px', fontSize: '0.8em', lineHeight: '110%' }} dangerouslySetInnerHTML={{ __html: post.document.replaceAll('\n', '<br />').substring(0, 300) + `......`}}></div><br />
-          <a target="_blank" href={post.url}>READ FULL NOTICE</a>
-        </Card>
-      ))}
+      {cookies.eckles_loggedin && getters.content ? (
+        <>
+          Check out some recent notices!<br />
+          {getters.content && getters.content.forum.map((post, idx) => (
+            <Card variant="outlined" sx={{ padding: '20px', margin: '20px 0' }}>
+              <h3 style={{ margin: 0, padding: 0}}>{post.title}</h3>
+              <span style={{ fontSize: '0.6em' }}>Posted {post.created_at}</span>
+              <div style={{ marginTop: '20px', fontSize: '0.8em', lineHeight: '110%' }} dangerouslySetInnerHTML={{ __html: post.document.replaceAll('\n', '<br />').substring(0, 300) + `......`}}></div><br />
+              <a target="_blank" href={post.url}>READ FULL NOTICE</a>
+            </Card>
+          ))}
+        </>
+      ) : (
+        <>
+          Please <Link to="/login">log in</Link>
+        </>
+      )}
 
       </div>
     </>

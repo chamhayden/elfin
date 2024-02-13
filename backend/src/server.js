@@ -34,7 +34,7 @@ const getGroupOfStudent = (groups, zid) => {
 };
 
 let builtData = {};
-Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {} });
+Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {}, forum: [] });
 
 const buildRuns = (term) => {
   return ((innerTerm) => {
@@ -109,17 +109,22 @@ const buildForum = (term) => {
           'X-Token': config.TERMS[term].ED_TOKEN,
         }
       }).then(r => r.json()).then(data => {
-        const notices = data.threads.filter(t => t.is_pinned).map(t => ({
-          url: `https://edstem.org/au/courses/${edCourseNumber}/discussion/${t.id}`,
-          title: t.title,
-          document: t.document,
-          created_at: t.created_at,
-        }));
-        lock.acquire('data', (done) => {
-          builtData[innerTerm].forum = notices;
-          done();
-        });
-        resolve();
+        console.log('data', data);
+        if (data.threads) {
+          const notices = data.threads.filter(t => t.is_pinned).map(t => ({
+            url: `https://edstem.org/au/courses/${edCourseNumber}/discussion/${t.id}`,
+            title: t.title,
+            document: t.document,
+            created_at: t.created_at,
+          }));
+          lock.acquire('data', (done) => {
+            builtData[innerTerm].forum = notices;
+            done();
+            resolve();
+          });
+        } else {
+          resolve();
+        }
       });
       setTimeout(() => buildForum(innerTerm), 1000 * 60 * 10); // 10 minutes
     });

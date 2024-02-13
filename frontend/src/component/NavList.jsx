@@ -50,21 +50,21 @@ export const getPrimaryNavList = (term) => {
     },
     {
       title: 'Timetable',
-      loginRequired: false,
+      loginRequired: true,
       Icon: AccessTimeIcon,
       description: 'View the lecture, tutorial, and help session timetable',
       children: [
         {
           title: 'Lectures',
           route: '/timetable/lectures',
-          loginRequired: false,
+          loginRequired: true,
           Icon: TheatersIcon,
           description: 'View the lecture, tutorial, and help session timetable',
         },
         {
           title: 'Tutes & Labs',
           route: '/timetable/tute-labs',
-          loginRequired: false,
+          loginRequired: true,
           Icon: SchoolIcon,
           description: 'View the lecture, tutorial, and help session timetable',
         },
