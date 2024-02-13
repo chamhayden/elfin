@@ -63,6 +63,6 @@ const TimetableMegatutes = () => {
 };
 
 export default makePage(TimetableMegatutes, {
-  loginRequired: false,
+  loginRequired: true,
   title: '☂️ Mega-tutorial Timetable',
 });

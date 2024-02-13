@@ -108,6 +108,6 @@ const TimetableHelpSessions = () => {
 };
 
 export default makePage(TimetableHelpSessions, {
-  loginRequired: false,
+  loginRequired: true,
   title: '📖 Help Session Timetable',
 });
