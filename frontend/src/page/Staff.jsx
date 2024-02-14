@@ -45,6 +45,6 @@ const Staff = () => {
 }
 
 export default makePage(Staff, {
-  loginRequired: false,
+  loginRequired: true,
   title: '⚽️ Our Staff',
 });

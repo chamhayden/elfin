@@ -23,6 +23,7 @@ import HailIcon from '@mui/icons-material/Hail';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import BuildIcon from '@mui/icons-material/Build';
 
 export const getPrimaryNavList = (term) => {
   return [
@@ -125,6 +126,13 @@ export const getPrimaryNavList = (term) => {
       loginRequired: true,
       Icon: LocalHospitalIcon,
       description: 'Help on getting started with the course',
+    },
+    {
+      title: 'ELS / Spec-con',
+      route: '/due-date-adjustments',
+      loginRequired: true,
+      Icon: BuildIcon,
+      description: 'Figure out how to deal with due date adjustments',
     },
     {
       title: 'Grades',
