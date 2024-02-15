@@ -192,10 +192,7 @@ const CourseOutline24T1 = () => {
         Tutors will continually monitor the GitLab repositories to see the team's progress and individual members' contributions to the group project. 
       </Typography>
       <div style={{ height: '10px'}}></div>
-      <Typography variant="body1" gutterBottom>
-        There is an individual project iteration at the end of the term. Students build on the group project to develop their open-ended solutions. 
-      </Typography>
-
+      
       <div style={{ height: '40px'}}></div>
       <Typography variant="h4" component="div" gutterBottom>
         4. Course Evaluation and Development
