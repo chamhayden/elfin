@@ -1,6 +1,6 @@
 let config = {};
 config.DEV = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development');
-config.BASE_URL = config.DEV ? 'http://localhost:11531' : 'https://cgi.cse.unsw.edu.au/~cs1531';
+config.BASE_URL = config.DEV ? 'http://localhost:11531' : `https://${window.location.hostname}/~cs1531`;
 config.BASE_NAME = config.DEV ? '/~cs1531/' : '/~cs1531/';
 
 config.terms = config.DEV ? ['sample', '24T1'] : ['sample', '24T1'];
