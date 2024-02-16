@@ -214,7 +214,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(cors({
-  origin : config.DEV ? "http://localhost:3000" : 'https://cs1531.web.cse.unsw.edu.au',
+  origin : config.DEV ? "http://localhost:3000" : ['https://cs1531.web.cse.unsw.edu.au','https://web.cse.unsw.edu.au','https://cgi.cse.unsw.edu.au'],
   credentials: true,
 }));
 
