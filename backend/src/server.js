@@ -11,11 +11,12 @@ const shell = require('shelljs')
 var AsyncLock = require('async-lock');
 var lock = new AsyncLock();
 
-const { contentSchema, runSchema } = require('../../frontend/src/config');
+const { contentSchema, runSchema, presentationSchema } = require('../../frontend/src/config');
 const contentTables = Object.keys(contentSchema);
 const runTables = Object.keys(runSchema);
+const presentationTables = Object.keys(presentationSchema);
 
-const { generateContent, addRun, cancelRun } = require('./content');
+const { generateContent, addRun, cancelRun, setPresentationTime } = require('./content');
 const { getStudentIds, getGrades } = require('./student_data');
 
 /******************************
@@ -34,7 +35,7 @@ const getGroupOfStudent = (groups, zid) => {
 };
 
 let builtData = {};
-Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {}, forum: [] });
+Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {}, forum: [], presentations: [] });
 
 const buildRuns = (term) => {
   return ((innerTerm) => {
@@ -44,7 +45,22 @@ const buildRuns = (term) => {
           builtData[innerTerm].runs = data.runs;
           done();
         });
-        setTimeout(() => buildRuns(innerTerm), 1000); // 1 second
+        setTimeout(() => buildRuns(innerTerm), 2000); // 2 second
+        resolve();
+      }).catch(reject);
+    });
+  })(term);
+};
+
+const buildPresentations = (term) => {
+  return ((innerTerm) => {
+    return new Promise((resolve, reject) => {
+      generateContent(innerTerm, presentationTables).then((data) => {
+        lock.acquire('data', (done) => {
+          builtData[innerTerm].presentations = data.final_presentation;
+          done();
+        });
+        setTimeout(() => buildPresentations(innerTerm), 2000); // 2 second
         resolve();
       }).catch(reject);
     });
@@ -87,7 +103,7 @@ const parseGroups = (raw) => {
 const buildGroups = (term) => {
   return ((innerTerm) => {
     return new Promise((resolve, reject) => {
-      const { stdout } = shell.exec('rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/23T3/STAFF/administration.git /tmp/gl && cd /tmp/gl && cat groups.csv')
+      const { stdout } = shell.exec(`rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/${term}/STAFF/administration.git /tmp/gl && cd /tmp/gl && cat groups.csv`)
       setTimeout(() => buildGroups(innerTerm), 1000 * 60 * 10); // 10 minutes
       lock.acquire('data', (done) => {
         builtData[innerTerm].groups = parseGroups(stdout);
@@ -282,7 +298,7 @@ app.post('/api/runs', (req, res) => {
 
 });
 
-app.post('/api/runs/cancel', (req, res) => {
+app.post('/api/runs/cancel', async (req, res) => {
   const { term, record } = req.body;
   const { eckles_jwt } = req.cookies;
   
@@ -293,7 +309,7 @@ app.post('/api/runs/cancel', (req, res) => {
   
   try {
     const decoded = { data: '5478378' }; //jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
-    cancelRun(term, decoded.data, record);
+    await cancelRun(term, decoded.data, record);
     res.json({});
 
   } catch (err) {
@@ -303,7 +319,7 @@ app.post('/api/runs/cancel', (req, res) => {
 
 });
 
-app.post('/api/runs/submit', (req, res) => {
+app.post('/api/runs/submit',  async (req, res) => {
   const { term, commit, iteration } = req.body;
   const { eckles_jwt } = req.cookies;
   
@@ -336,7 +352,7 @@ app.post('/api/runs/submit', (req, res) => {
     }
     
     // Bad Commit
-    const { stdout, stderr } = shell.exec(`rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/23T3/groups/${group}/project-backend.git /tmp/gl && cd /tmp/gl && git reset --hard ${safecommit}`);
+    const { stdout, stderr } = shell.exec(`rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/${term}/groups/${group}/project-backend.git /tmp/gl && cd /tmp/gl && git reset --hard ${safecommit}`);
     if (commit == '' || stderr.includes('unknown revision')) {
       res.status(400).send({ err: 'Bad commit', })
       return;
@@ -349,7 +365,7 @@ app.post('/api/runs/submit', (req, res) => {
       return;
     }
 
-    addRun(term, decoded.data, iter, safecommit);
+    await addRun(term, decoded.data, iter, safecommit);
     res.json({});
 
   } catch (err) {
@@ -359,7 +375,7 @@ app.post('/api/runs/submit', (req, res) => {
 
 });
 
-app.post('/api/content', (req, res) => {
+app.post('/api/content', async (req, res) => {
   const { term } = req.body;
   const { eckles_jwt } = req.cookies;
   
@@ -406,6 +422,67 @@ app.post('/api/istutor', (req, res) => {
 
 });
 
+
+app.post('/api/presentations/get', async (req, res) => {
+  const { term } = req.body;
+  const { eckles_jwt } = req.cookies;
+  
+  if (!eckles_jwt) {
+    res.status(400).send({ err: 'Please login' });
+    return;
+  }
+
+
+  try {
+    const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
+    const zid = decoded.data;
+
+    const presentations = [];
+    for (const key of Object.keys(builtData[term].presentations)) {
+      presentations.push({
+        ...builtData[term].presentations[key],
+        id: key,
+      })
+    }
+
+    lock.acquire('data', (done) => {
+      res.json(presentations);
+      done();
+    });
+    
+  } catch (err) {
+    res.status(400).send({ err: 'Go away' });
+  }
+});
+
+app.post('/api/presentations/set', async (req, res) => {
+  const { eckles_jwt } = req.cookies;
+  const { recordId, term } = req.body;
+  
+  if (!eckles_jwt) {
+    res.status(400).send({ err: 'Please login' });
+    return;
+  }
+
+  const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
+  const zid = decoded.data;
+  const group = getGroupOfStudent(builtData[term].groups, zid);
+  
+  // Check group isn't already there, unselect if it is
+  for (const key of Object.keys(builtData[term].presentations)) {
+    if (builtData[term].presentations[key].group === group) {
+      await setPresentationTime(term, key, null)
+    }
+  }
+
+  try {
+    await setPresentationTime(term, recordId, group)
+    res.json({ });
+  } catch (err) {
+    res.status(400).send({ err: err });
+  }
+});
+
 app.get('/api/validterms', (req, res) => {
   res.json(Object.keys(config.TERMS));
 });
@@ -418,10 +495,11 @@ app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../frontend/bui
  ** Pull from airtable and start the server
  ******************************/
 
-buildRuns(config.TERM_DEFAULT)
-buildGroups(config.TERM_DEFAULT)
-buildContent(config.TERM_DEFAULT)
-buildForum(config.TERM_DEFAULT)
+buildPresentations(config.TERM_DEFAULT)
+.then(_ => buildRuns(config.TERM_DEFAULT))
+.then(_ => buildGroups(config.TERM_DEFAULT))
+.then(_ => buildContent(config.TERM_DEFAULT))
+.then(_ => buildForum(config.TERM_DEFAULT))
 .then(_ => 
   app.listen(config.PORT, () => {
     console.log(`Example app listening on port ${config.PORT}`)

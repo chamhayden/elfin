@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import SchoolIcon from '@mui/icons-material/School';
@@ -65,7 +66,19 @@ const ProjectRuns = ({ }) => {
   }
 
   if (!getters.isTutor) {
-    return <div style={{}}>You are not currently assigned a group. Check back later.</div>
+    return (
+      <Typography variant="h6" gutterBottom sx={{ }}>
+        Your major project has yet to be released
+      </Typography>
+    )
+  }
+
+  if (!getters.content.groups) {
+    return (
+      <Typography variant="h6" gutterBottom sx={{ }}>
+        Your major project has yet to be released
+      </Typography>
+    )
   }
 
   const data = runs.map((row, idx) => {

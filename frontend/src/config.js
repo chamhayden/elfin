@@ -12,6 +12,12 @@ config.runSchema = {
   },
 };
 
+config.presentationSchema = {
+  final_presentation: {
+    joins: {},
+  },
+};
+
 config.contentSchema = {
   timetable_lectures: {
     joins: {

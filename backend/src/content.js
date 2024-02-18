@@ -2,6 +2,27 @@ const Airtable = require('airtable');
 
 const config = require('./config');
 
+const setPresentationTime = (term, record, group) => {
+  const basename = config.TERMS[term].AIRTABLE_BASE;
+  const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
+  return new Promise((resolve, reject) => {
+    base('final_presentation').find(record).then(record => {
+      if (group && record.fields.group) {
+        reject('A group has already selected this time');
+        return;
+      }
+      base('final_presentation').update([
+        {
+          id: record.id,
+          fields: {
+            group: group,
+          }
+        }
+      ]).then(resolve).catch(console.log);
+    });
+  });
+};
+
 const addRun = (term, zid, iteration, commit) => {
   const basename = config.TERMS[term].AIRTABLE_BASE;
   const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
@@ -12,7 +33,7 @@ const addRun = (term, zid, iteration, commit) => {
       status: 'pending',
       iter: iteration,
       type: 'rerun_request',
-    });
+    }).then(resolve);
   });
 };
 
@@ -22,10 +43,10 @@ const cancelRun = (term, zid, record) => {
   return new Promise((resolve, reject) => {
     base('runs').find(record).then(record => {
       if (record.fields.zid !== zid) {
-        throw new Error('You can only cancel reqeuests you made');
+        reject('You can only cancel reqeuests you made');
       }
       if (record.fields.status !== 'pending') {
-        throw new Error('You can only cancel requests in pending state');
+        reject('You can only cancel requests in pending state');
       }
       base('runs').update([
         {
@@ -34,7 +55,7 @@ const cancelRun = (term, zid, record) => {
             status: 'cancelled',
           }
         }
-      ]);
+      ]).then(resolve).catch(console.log);
     });
   });
 };
@@ -76,4 +97,5 @@ module.exports = {
   generateContent,
   addRun,
   cancelRun,
+  setPresentationTime,
 };
