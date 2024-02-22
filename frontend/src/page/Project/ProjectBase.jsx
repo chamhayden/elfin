@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import SchoolIcon from '@mui/icons-material/School';
+import CoPresentIcon from '@mui/icons-material/CoPresent';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { Outlet } from 'react-router-dom';
 
@@ -22,6 +23,11 @@ const ProjectBase = ({ }) => {
       title: 'Marking Runs',
       icon: <SchoolIcon />,
       subRoute: 'runs',
+    },
+    {
+      title: 'Final Presentation',
+      icon: <CoPresentIcon />,
+      subRoute: 'final-presentation',
     },
   ];
 

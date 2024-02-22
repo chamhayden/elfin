@@ -26,6 +26,7 @@ import GettingStartedOther from './page/GettingStarted/GettingStartedOther';
 import ProjectBase from './page/Project/ProjectBase';
 import ProjectSpec from './page/Project/ProjectSpec';
 import ProjectRuns from './page/Project/ProjectRuns';
+import ProjectFinalPresentation from './page/Project/ProjectFinalPresentation';
 import Staff from './page/Staff';
 import DueDateAdjustments from './page/DueDateAdjustments';
 import LogoutAction from './component/LogoutAction';
@@ -62,6 +63,7 @@ const Router = () => {
         <Route path="content/project" element={<ProjectBase />}>
           <Route path="spec" element={<ProjectSpec />} />
           <Route path="runs" element={<ProjectRuns />} />
+          <Route path="final-presentation" element={<ProjectFinalPresentation />} />
         </Route>
         <Route path="content/practice" element={<ContentPractice />} />
         <Route path="course-outline" element={<CourseOutline />} />

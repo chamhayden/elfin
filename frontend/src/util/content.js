@@ -6,8 +6,10 @@ import { DEV, runSchema, contentSchema } from '../config';
 const joinContent = (content, schema) => {
   const group = content.group; // HACK
   const forum = content.forum; // HACK
+  const presentations = content.presentations; // HACK
   content.group = undefined;
   content.forum = undefined;
+  content.presentations = undefined;
   const newContent = {};
   for (const table in content) {
     newContent[table] = [];
@@ -36,6 +38,7 @@ const joinContent = (content, schema) => {
     ...newContent,
     group: group,
     forum: forum,
+    presentations: presentations,
   };
 };
 
