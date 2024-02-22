@@ -28,7 +28,7 @@ const isTutor = zid => config.TERMS[config.TERM_DEFAULT].TUTOR_ID_LIST.includes(
 const getGroupOfStudent = (groups, zid) => {
   const groupNames = Object.keys(groups);
   const foundGroups = groupNames.filter(group => groups[group].includes(zid));
-  if (foundGroups.length === 1) {
+  if (foundGroups.length == 1) {
     return foundGroups[0];
   }
   return null;
@@ -235,6 +235,7 @@ app.use(cors({
 }));
 
 const setCookie = (res, zid) => {
+  //zid = '5483461';
   const payload = {
     data: zid,
   };
@@ -254,6 +255,7 @@ const setCookie = (res, zid) => {
 app.post('/api/login', (req, res, next) => {
   const { zid, zpass, term } = req.body;
   const zidsimple = zid.replace('z', '');
+
   validUserCheck(zidsimple, zpass, term)
     .then(zidsimple => validTermCheck(zidsimple, term))
     .then(zidsimple => {
@@ -308,7 +310,7 @@ app.post('/api/runs/cancel', async (req, res) => {
   }
   
   try {
-    const decoded = { data: '5478378' }; //jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
+    const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
     await cancelRun(term, decoded.data, record);
     res.json({});
 
@@ -329,8 +331,8 @@ app.post('/api/runs/submit',  async (req, res) => {
   }
   
   try {
-    const decoded = { data: '5478378' }; //jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
-    const group = getGroupOfStudent(builtData[term].groups, '5478378'); //decoded.data);
+    const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
+    const group = getGroupOfStudent(builtData[term].groups, decoded.data);
     const safecommit = commit.replace(/[^0-9a-z]/gi, '');
 
     // Not in a group
