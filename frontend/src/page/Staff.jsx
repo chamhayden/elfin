@@ -24,7 +24,7 @@ const Staff = () => {
   const { getters } = useContext(Context);
   const staff = getters.content.staff;
   staff.sort((a,b) => a.name.localeCompare(b.name));
-  const data = getters.content.staff.map((staff, idx) => (
+  const data = staff.map((staff, idx) => (
     [
       {
         key: 'name',

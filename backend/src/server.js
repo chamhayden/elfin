@@ -22,6 +22,9 @@ const { getStudentIds, getGrades } = require('./student_data');
  ** Load content
  ******************************/
 
+let builtData = {};
+Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {}, forum: [] });
+
 const isTutor = zid => config.TERMS[config.TERM_DEFAULT].TUTOR_ID_LIST.includes(zid);
 
 const getGroupOfStudent = (groups, zid) => {
@@ -32,9 +35,6 @@ const getGroupOfStudent = (groups, zid) => {
   }
   return null;
 };
-
-let builtData = {};
-Object.keys(config.TERMS).map(term => builtData[term] = { runs: [], groups: {}, content: {}, forum: [] });
 
 const buildRuns = (term) => {
   return ((innerTerm) => {
