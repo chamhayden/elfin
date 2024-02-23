@@ -73,7 +73,7 @@ const ProjectRuns = ({ }) => {
     )
   }
 
-  if (!getters.content.groups) {
+  if (!getters.content.group) {
     return (
       <Typography variant="h6" gutterBottom sx={{ }}>
         Your major project has yet to be released

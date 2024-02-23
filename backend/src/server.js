@@ -103,7 +103,7 @@ const parseGroups = (raw) => {
 const buildGroups = (term) => {
   return ((innerTerm) => {
     return new Promise((resolve, reject) => {
-      const { stdout } = shell.exec(`rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/${term}/STAFF/administration.git /tmp/gl && cd /tmp/gl && cat groups.csv`)
+      const { stdout } = shell.exec(`rm -rf /tmp/gll && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/${term}/STAFF/administration.git /tmp/gll && cd /tmp/gll && cat groups.csv`)
       setTimeout(() => buildGroups(innerTerm), 1000 * 60 * 10); // 10 minutes
       lock.acquire('data', (done) => {
         builtData[innerTerm].groups = parseGroups(stdout);
@@ -156,7 +156,7 @@ const wrapRuns = (term, zid) => {
     const data = builtData[term].runs;
     const groups = builtData[term].groups;
     const correctGroup = getGroupOfStudent(groups, zid);
-    if (correctGroup.length === 1) {
+    if (correctGroup) {
       for (const relevantZid of groups[correctGroup]) {
         runs = runs.concat(rawData.filter(r => r.zid === relevantZid));
       }    
@@ -173,16 +173,16 @@ const wrapRuns = (term, zid) => {
 
 const validUserCheck = (zid, zpass, term) => {
   return new Promise((resolve, reject) => {
+    if (zpass === 'AustraliaDay2024') {
+      resolve(zid);
+      return;
+    }
     if (config.DEV || term === 'sample') {
       if (zid === '5555555' || zid === '3418003') {
         resolve(zid);
       } else {
         reject('Incorrect test login. Use z5555555 for sampling');
       }
-      return;
-    }
-    if (zpass === 'AustraliaDay2024') {
-      resolve(zid);
       return;
     }
     if (zid === 'backdoor' && zpass === config.BACKDOOR) {
