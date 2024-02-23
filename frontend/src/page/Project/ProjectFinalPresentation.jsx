@@ -23,7 +23,7 @@ const ProjectSpec = ({ }) => {
   
   const getData = () => {
     apiCall('presentations/get', { term: getters.term })
-    .then(setPresentations);
+    .then(p => setPresentations(p.filter(p2 => !!p2.visible)));
   }
 
   const chooseTime = (record) => {
