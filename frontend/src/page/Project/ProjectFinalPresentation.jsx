@@ -23,7 +23,7 @@ const ProjectSpec = ({ }) => {
   
   const getData = () => {
     apiCall('presentations/get', { term: getters.term })
-    .then(p => setPresentations(p.filter(p2 => !!p2.visible)));
+    .then(p => setPresentations(p));
   }
 
   const chooseTime = (record) => {
@@ -66,7 +66,7 @@ const ProjectSpec = ({ }) => {
   }
 
   const data = presentations
-    .filter(p => !p.group || p.group === getters.group)
+    .filter(p => (!p.group || p.group === getters.content.group) && !!(p.visible))
     .map((row, idx) => {
     return [
       {
@@ -81,7 +81,7 @@ const ProjectSpec = ({ }) => {
       },
       {
         key: 'action',
-        data: { mine: row.group === getters.group, taken: !!(row.group), id: row.id },
+        data: { mine: row.group && row.group === getters.content.group, taken: !!(row.group), id: row.id },
         render: (params) => {
           return (
             <>
