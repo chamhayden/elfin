@@ -68,7 +68,7 @@ const ProjectRuns = ({ }) => {
   if (!getters.isTutor) {
     return (
       <Typography variant="h6" gutterBottom sx={{ }}>
-        Your major project has yet to be released
+        Please come back later
       </Typography>
     )
   }
