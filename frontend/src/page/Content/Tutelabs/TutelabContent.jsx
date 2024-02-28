@@ -67,10 +67,9 @@ const TutelabsContent = ({ }) => {
       tutorial: true,
       exercises: {
         'lab08_memory': { marks: 1, critical: false },  
-        'lab08_objection': { marks: 1, critical: true },  
+        'lab08_objection': { marks: 1, critical: false },  
         'lab08_quiz': { marks: 1, critical: true },  
       },
-      notes: 'Starting this week, the quality of your tests will be assessed',
     },
     {
       tutorial: true,
