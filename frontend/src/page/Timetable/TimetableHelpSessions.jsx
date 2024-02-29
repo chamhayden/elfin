@@ -31,7 +31,7 @@ const TimetableHelpSessions = () => {
   }
 
   React.useEffect(() => {
-    let relevantSessions = getters.content.timetable_helpsessions;
+    let relevantSessions = getters.content.timetable_helpsessions.filter(h => !!(h.show));
     if (!minisessions) {
       relevantSessions = getters.content.timetable_helpsessions.filter(h => h.full);
     }
