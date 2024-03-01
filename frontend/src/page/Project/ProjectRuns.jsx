@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import md5 from 'md5';
 
 import { Context, useContext } from '../../context';
 import { apiCall } from '../../util/api';
@@ -65,13 +66,13 @@ const ProjectRuns = ({ }) => {
     .then(() => {});
   }
 
-  if (!getters.isTutor) {
+  /*if (getters.isTutor) {
     return (
       <Typography variant="h6" gutterBottom sx={{ }}>
         Please come back later
       </Typography>
     )
-  }
+  }*/
 
   if (!getters.content.group) {
     return (
@@ -132,14 +133,25 @@ const ProjectRuns = ({ }) => {
         data: row.results,
         flex: 1,
       },
+      {
+        key: 'files',
+        data: { hash: md5(`${row.record}\n`).substring(0,10) },
+        render: (params) => {
+          return (
+            <>
+              <a href={`https://cgi.cse.unsw.edu.au/~cs1531/raw/project-runs/${params.value.hash}`} target="_blank"><Button variant="contained">View Results</Button></a>
+            </>
+          );
+        },
+      },
     ]
   });
   
   return (
     <>
-      {!getters.content.group && (
+      {getters.content.group && (
         <div style={{}}>
-          <span style={{ fontSize: '1.5em', marginTop: '10px' }}>Request a rerun for {getters.content.group}</span>
+          {/*<span style={{ fontSize: '1.5em', marginTop: '10px' }}>Request a rerun for {getters.content.group}</span>
           &nbsp;&nbsp;&nbsp;
           <FormControl>
             <TextField
@@ -168,7 +180,7 @@ const ProjectRuns = ({ }) => {
           <Button onClick={submit} disabled={!runBtnEnable} size="large" sx={{ height: '55px' }} variant="contained">Run!</Button>
           <br />
           <br />
-          Please note: Submitting a rerun request for an iteration before you get your initial results will result in automatic cancellation.
+          Please note: Submitting a rerun request for an iteration before you get your initial results will result in automatic cancellation.*/}
         </div>
       )}
       <br />
@@ -178,7 +190,7 @@ const ProjectRuns = ({ }) => {
       {runs.length === 0 ? (
         <div style={{}}>Loading...</div>
       ) : (
-        <Table data={data} maxWidth={1200} />
+        <Table data={data} maxWidth={1400} />
       )}
     </>
   );

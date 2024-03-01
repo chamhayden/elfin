@@ -6,7 +6,7 @@ const express = require('express');
 const ActiveDirectory = require('activedirectory2').promiseWrapper;
 const cors = require('cors');
 const path = require('path');
-const shell = require('shelljs')
+const shell = require('shelljs');
 
 var AsyncLock = require('async-lock');
 var lock = new AsyncLock();
@@ -146,22 +146,25 @@ const buildForum = (term) => {
 };
 
 const wrapRuns = (term, zid) => {
-
-  const rawData = Object.keys(builtData[term].runs).map(k => ({ ...builtData[term].runs[k], created: new Date(builtData[term].runs[k].created), record: k }));
+  const rawData = Object.keys(builtData[term].runs).map(k => {
+    return {
+      ...builtData[term].runs[k],
+      created: new Date(builtData[term].runs[k].created),
+      record: k,
+    };
+  });
   let runs = [];
   
   if (isTutor(zid)) {
     runs = rawData;
   } else {
-    const data = builtData[term].runs;
     const groups = builtData[term].groups;
     const correctGroup = getGroupOfStudent(groups, zid);
     if (correctGroup) {
-      for (const relevantZid of groups[correctGroup]) {
-        runs = runs.concat(rawData.filter(r => r.zid === relevantZid));
-      }    
+      runs = rawData.filter(r => r.group === correctGroup);
     }
   }
+  
   return runs.sort((a,b) => b.created - a.created).map(r => ({
     ...r,
   }));
