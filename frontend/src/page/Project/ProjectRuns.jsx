@@ -135,8 +135,9 @@ const ProjectRuns = ({ }) => {
       },
       {
         key: 'files',
-        data: { hash: md5(`${row.record}\n`).substring(0,10) },
+        data: { hash: md5(`${row.record}\n`).substring(0,10), show: row.type !== 'leaderboard' && row.status === 'complete' },
         render: (params) => {
+          if (!params.value.show) return <>N/A</>;
           return (
             <>
               <a href={`https://cgi.cse.unsw.edu.au/~cs1531/raw/project-runs/${params.value.hash}`} target="_blank"><Button variant="contained">View Results</Button></a>
