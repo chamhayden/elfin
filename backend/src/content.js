@@ -61,7 +61,6 @@ const cancelRun = (term, zid, record) => {
 };
 
 const generateContent = (term, schema) => {
-  console.log(term, schema);
   const basename = config.TERMS[term].AIRTABLE_BASE;
   const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
   return new Promise((resolve, reject) => {
