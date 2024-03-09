@@ -11,6 +11,15 @@ const Table = ({ data, maxWidth, ...props }) => {
   const [colDefs, setColDefs] = React.useState([]);
 
   React.useEffect(() => {
+    setRowData(data.map(r => {
+      const obj = {};
+      r.forEach(c => {
+        obj[c.key] = c.data;
+      })
+      return obj;
+    }));
+  }, [data]);
+  React.useEffect(() => {
     setColDefs(data[0].map(r => {
       if (!r.showWidth || window.innerWidth > r.showWidth) {
         return {
@@ -21,15 +30,7 @@ const Table = ({ data, maxWidth, ...props }) => {
         }
       }
     }).filter(a => a));
-
-    setRowData(data.map(r => {
-      const obj = {};
-      r.forEach(c => {
-        obj[c.key] = c.data;
-      })
-      return obj;
-    }));
-  }, [window.innerWidth]);
+  }, [window.innerWidth, data]);
   
   return (
     <div style={{ maxWidth: maxWidth ?? 900, }}>

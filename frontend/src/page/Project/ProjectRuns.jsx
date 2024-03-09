@@ -37,7 +37,7 @@ const ProjectRuns = ({ }) => {
   }
 
   React.useEffect(() => {
-    const interval = setInterval(getData, 1000);
+    const interval = setInterval(getData, 2000);
     return () => clearInterval(interval);
   }, [getters.term]);
 
@@ -66,15 +66,7 @@ const ProjectRuns = ({ }) => {
     .then(() => {});
   }
 
-  /*if (getters.isTutor) {
-    return (
-      <Typography variant="h6" gutterBottom sx={{ }}>
-        Please come back later
-      </Typography>
-    )
-  }*/
-
-  if (!getters.content.group) {
+  if (!getters.isTutor && !getters.content.group) {
     return (
       <Typography variant="h6" gutterBottom sx={{ }}>
         Your major project has yet to be released
@@ -84,7 +76,7 @@ const ProjectRuns = ({ }) => {
 
   const data = runs.map((row, idx) => {
     const date = new Date(Date.parse(row.created));
-    return [
+    const arr = [
       {
         key: 'submitted_at',
         data: `${
@@ -124,6 +116,11 @@ const ProjectRuns = ({ }) => {
         },
       },
       {
+        key: 'iteration',
+        data: row.iter,
+        width: '150px',
+      },
+      {
         key: 'type',
         data: row.type,
         width: '150px',
@@ -146,6 +143,14 @@ const ProjectRuns = ({ }) => {
         },
       },
     ]
+    if (getters.isTutor) {
+      arr.push({
+        key: 'group',
+        data: row.group,
+        width: '150px',
+      });
+    }
+    return arr;
   });
   
   return (
@@ -191,7 +196,7 @@ const ProjectRuns = ({ }) => {
       {runs.length === 0 ? (
         <div style={{}}>Loading...</div>
       ) : (
-        <Table data={data} maxWidth={1400} />
+        <Table data={data} maxWidth={2000} />
       )}
     </>
   );
