@@ -52,7 +52,7 @@ const GettingStartedCoding = ({ }) => {
           <ol>
             <li>Copy the command listed in <a href="https://github.com/nvm-sh/nvm#installing-and-updating">the installation instructions</a> and paste it into a WSL terminal.</li>
             <li>After executing the installation command, close and reopen your terminal.</li>
-            <li>Run <code>nvm install 18</code>, which will download and install the correct version of NodeJS.After it completes, run the &lt;code&gt;node --version command to check if it installed correctly. You should see something like "v18.16.0" as the output.</li>
+            <li>Run <code>nvm install 18</code>, which will download and install the correct version of NodeJS.After it completes, run the <code></code>node --version</code> command to check if it installed correctly. You should see something like "v18.16.0" as the output.</li>
           </ol>
           <ol>
           </ol></li>
