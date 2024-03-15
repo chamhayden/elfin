@@ -23,17 +23,19 @@ const setPresentationTime = (term, record, group) => {
   });
 };
 
-const addRun = (term, zid, iteration, commit) => {
+const addRun = (term, zid, group, iteration, commit, safeMrId) => {
   const basename = config.TERMS[term].AIRTABLE_BASE;
   const base = new Airtable({ apiKey: config.AIRTABLE_PERSONAL_TOKEN }).base(basename);
   return new Promise((resolve, reject) => {
     base('runs').create({
       zid,
       commithash: commit,
+      mrId: safeMrId,
+      group: group,
       status: 'pending',
       iter: iteration,
       type: 'rerun_request',
-    }).then(resolve);
+    }).then(resolve).catch(console.log);
   });
 };
 

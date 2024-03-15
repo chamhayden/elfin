@@ -328,7 +328,7 @@ app.post('/api/runs/cancel', async (req, res) => {
 });
 
 app.post('/api/runs/submit',  async (req, res) => {
-  const { term, commit, iteration } = req.body;
+  const { term, mergerequestid, iteration } = req.body;
   const { eckles_jwt } = req.cookies;
   
   if (!eckles_jwt) {
@@ -339,7 +339,7 @@ app.post('/api/runs/submit',  async (req, res) => {
   try {
     const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
     const group = getGroupOfStudent(builtData[term].groups, decoded.data);
-    const safecommit = commit.replace(/[^0-9a-z]/gi, '');
+    const safeMrId = mergerequestid.replace(/[^0-9]/gi, '');
 
     // Not in a group
     if (getGroupOfStudent(builtData[term].groups, decoded.data) === null) {
@@ -353,16 +353,17 @@ app.post('/api/runs/submit',  async (req, res) => {
     for (const run of groupRuns.filter(s => s.status !== 'cancelled')) {
       const created = new Date(run.created).getTime() / 1000;
       const now = new Date().getTime() / 1000;
-      if (Math.abs(created - now) < 60 * 60 * 6) { // 1 hour
-        res.status(400).send({ err: 'You cannot submit another run within 6 hours of the last'})
+      if (Math.abs(created - now) < 60 * 60 * 24) { // 1 day
+        res.status(400).send({ err: 'You cannot submit another run for 24 hours since last submission'})
         return;
       }
     }
-    
+
     // Bad Commit
-    const { stdout, stderr } = shell.exec(`rm -rf /tmp/gl && git clone git@nw-syd-gitlab.cseunsw.tech:COMP1531/${term}/groups/${group}/project-backend.git /tmp/gl && cd /tmp/gl && git reset --hard ${safecommit}`);
-    if (commit == '' || stderr.includes('unknown revision')) {
-      res.status(400).send({ err: 'Bad commit', })
+    const { stdout, stderr } = shell.exec(`python3 ${path.resolve('./', '../gl-service/mrToCommit.py')} "${term}" "${group}" "${safeMrId}"`);
+    const commitHash = stdout.replace(/[^0-9a-z]/gi, '')
+    if (commitHash == "null") {
+      res.status(400).send({ err: 'This is not a valid merge request ID. Please refer to forum for help', })
       return;
     }
 
@@ -373,7 +374,7 @@ app.post('/api/runs/submit',  async (req, res) => {
       return;
     }
 
-    await addRun(term, decoded.data, iter, safecommit);
+    await addRun(term, decoded.data, group, iter, commitHash, parseInt(safeMrId));
     res.json({});
 
   } catch (err) {

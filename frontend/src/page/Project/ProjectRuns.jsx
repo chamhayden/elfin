@@ -26,7 +26,7 @@ const ProjectRuns = ({ }) => {
   const { getters, setters } = useContext(Context);
   const [runs, setRuns] = React.useState([])
   const [iter, setIter] = React.useState(1);
-  const [commit, setCommit] = React.useState('');
+  const [mergeRequestId, setMergeRequestId] = React.useState('');
   const [runBtnEnable, setRunBtnEnable] = React.useState(true);
 
   const getData = () => {
@@ -46,15 +46,16 @@ const ProjectRuns = ({ }) => {
     try {
       await apiCall('runs/submit', {
         term: getters.term,
-        commit: commit,
+        mergerequestid: mergeRequestId,
         iteration: iter,
       }, 'POST', )
       .then(() => {
-        setCommit('');
+        setMergeRequestId('');
       }).catch((err) => {
         alert(err);
       }).finally(() => {
         setRunBtnEnable(true);
+        alert('Please wait 3-5 seconds for it to appear in the table')
       });
     } catch (err) {
       console.log(err);
@@ -109,7 +110,7 @@ const ProjectRuns = ({ }) => {
             <>
               {params.value.status}
               {params.value.status === 'pending' && (
-                <span style={{ cursor: 'pointer' }} onClick={() => cancelPending(params.value.record)}>&nbsp;<button>Cancel ❌</button></span>
+                <span style={{ cursor: 'pointer' }} onClick={() => window.confirm('Are you sure? Please wait a few seconds for it to disappear') ? cancelPending(params.value.record) : ''}>&nbsp;<button>Cancel ❌</button></span>
               )}
             </>
           );
@@ -157,15 +158,15 @@ const ProjectRuns = ({ }) => {
     <>
       {getters.content.group && (
         <div style={{}}>
-          {/*<span style={{ fontSize: '1.5em', marginTop: '10px' }}>Request a rerun for {getters.content.group}</span>
+          <span style={{ fontSize: '1.5em', marginTop: '10px' }}>Request a rerun for {getters.content.group}</span>
           &nbsp;&nbsp;&nbsp;
           <FormControl>
             <TextField
               variant="outlined"
-              id="commit"
-              label="Commit Hash"
-              onChange={e => setCommit(e.target.value)}
-              value={commit}
+              id="mergerequestid"
+              label="Merge Request ID"
+              onChange={e => setMergeRequestId(e.target.value)}
+              value={mergeRequestId}
             />
           </FormControl>
           <FormControl>
@@ -186,7 +187,7 @@ const ProjectRuns = ({ }) => {
           <Button onClick={submit} disabled={!runBtnEnable} size="large" sx={{ height: '55px' }} variant="contained">Run!</Button>
           <br />
           <br />
-          Please note: Submitting a rerun request for an iteration before you get your initial results will result in automatic cancellation.*/}
+          Please note: Submitting a rerun request for an iteration before you get your initial results will result in automatic cancellation.
         </div>
       )}
       <br />
