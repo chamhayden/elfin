@@ -340,6 +340,7 @@ app.post('/api/runs/submit',  async (req, res) => {
     const decoded = jsonwebtoken.verify(eckles_jwt, config.JWT_SECRET);
     const group = getGroupOfStudent(builtData[term].groups, decoded.data);
     const safeMrId = mergerequestid.replace(/[^0-9]/gi, '');
+    const targetBranch = `iter${iteration}-submission`;
 
     if (mergerequestid === '') {
       res.status(400).send({ err: 'Please enter a merge request ID', })
@@ -365,12 +366,12 @@ app.post('/api/runs/submit',  async (req, res) => {
     }
 
     // Bad Commit
-    const { stdout, stderr } = shell.exec(`python3 ${path.resolve('./', '../gl-service/mrToCommit.py')} "${term}" "${group}" "${safeMrId}"`);
-    const commitHash = stdout.replace(/[^0-9a-z]/gi, '')
-    if (commitHash == "null") {
-      res.status(400).send({ err: 'This is not a valid merge request ID. Please refer to forum for help', })
+    const { stdout, stderr } = shell.exec(`python3 ${path.resolve('./', '../gl-service/mrToCommit.py')} "${term}" "${group}" "${safeMrId}" "${targetBranch}"`);
+    if (stdout.includes("|")) {
+      res.status(400).send({ err: `${stdout.replace('|','')}. Please refer to forum for help`, })
       return;
     }
+    const commitHash = stdout.replace(/[^0-9a-z]/gi, '')
 
     // Bad iteration
     const iter = parseInt(iteration);
