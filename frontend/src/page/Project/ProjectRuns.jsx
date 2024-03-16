@@ -51,11 +51,11 @@ const ProjectRuns = ({ }) => {
       }, 'POST', )
       .then(() => {
         setMergeRequestId('');
+        alert('Please wait 3-5 seconds for it to appear in the table')
       }).catch((err) => {
         alert(err);
       }).finally(() => {
         setRunBtnEnable(true);
-        alert('Please wait 3-5 seconds for it to appear in the table')
       });
     } catch (err) {
       console.log(err);
