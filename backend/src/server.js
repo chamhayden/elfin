@@ -341,6 +341,11 @@ app.post('/api/runs/submit',  async (req, res) => {
     const group = getGroupOfStudent(builtData[term].groups, decoded.data);
     const safeMrId = mergerequestid.replace(/[^0-9]/gi, '');
 
+    if (mergerequestid === '') {
+      res.status(400).send({ err: 'Please enter a merge request ID', })
+      return;
+    }
+
     // Not in a group
     if (getGroupOfStudent(builtData[term].groups, decoded.data) === null) {
       res.status(400).send({ err: 'You are not in a group', })
