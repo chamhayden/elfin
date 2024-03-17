@@ -87,7 +87,7 @@ const TimetableHelpSessions = () => {
       Please note, help sessions with more tutors will generally have shorter queues. Please plan this accordingly.
     </Typography>
     <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px 30px 10px', width: 700}}>
-      Please wait in the appropriate <a target="_blank" href="https://web.cse.unsw.edu.au/~apps/hopper">Hopper Queue</a> until a tutor contacts you or invite you into a call.
+      Please wait in the appropriate <a target="_blank" href="https://web.cse.unsw.edu.au/~hopper">Hopper Queue</a> until a tutor contacts you or invite you into a call.
     </Typography>
     <hr />
     <Typography variant="body2" sx={{ fontSize: '1.2em', padding: '5px 10px 30px 10px', width: 700}}>
