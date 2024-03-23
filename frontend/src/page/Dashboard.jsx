@@ -49,7 +49,7 @@ const Dashboard = ({ }) => {
   return (
     <>
       <div style={{lineHeight: '150%', fontSize: '1.5em'}}>
-      Welcome to COMP1531 for 24T1.<br /><br />
+      Welcome to COMP1531 for {getters.term}.<br /><br />
       {cookies.eckles_loggedin && getters.content ? (
         <>
           Check out some recent notices!<br />
