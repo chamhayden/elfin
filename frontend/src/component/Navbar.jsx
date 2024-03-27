@@ -97,7 +97,7 @@ export default function ClippedDrawer({ children, drawerWidth, sidebarOpen, setS
           <Box sx={{ cursor: 'pointer', position: 'fixed', top: 0, height: '60px', width: drawerWidth, backgroundColor: background, zIndex: 999, borderBottom: '1px solid #333' }} onClick={() => navigate(`/${getters.term}`)}>
             <img src={mainlogo} style={{ height: '59px', marginBottom: '10px', float: 'left' }} />
             <Typography sx={{ float: 'left ',fontSize: '1.3em', paddingTop: '15px', paddingLeft: '15px' }}>
-              COMP1531🤪
+              COMP1531
             </Typography>
           </Box>
 
